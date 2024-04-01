@@ -1,0 +1,16 @@
+, wps şifresini bulduktan sonra jumpstart programı ile ağa wps şifresiyle bağlanabiliyorsunuz..
+
+crunch 12 12 | john --stdin --session=eren --stdout | aircrack-ng -w - -b bssid handshak
+
+
+
+
+Merhaba, DNS server 'da trafik takibi yapılabilir. DNS size yasaklı adreslere erişim imkanız sağlar, farklı bir domain name server üzerinden internete erişirsiniz. Türkiye'deki yasaklar etkilemez. Trafik takip edilemesin diyorsanız VPN kullanmalısınız.
+
+
+Sunucuya parola koymak doğru değildir evet, pem uzantılı bir anahtar oluşturup bilgisayarınıza indirirsiniz. Sunucuya bu anahtar ile bağlanırsınız bu çok çok daha güvenlidir. Örnek olarak;
+
+ssh -i "AlperSanKey.pem" ubuntu@ecx.x.x.x.x.x.compute-1.amazonaws.com  komutu ile hiç şifre yazmadan bilgisayarımdaki "AlperSanKey.pem" anahtarı ile sunucuma erişebildim.
+
+
+Digital Ocean yasal bir ihlal olursa sizi takip edebilir evet. Bu nedenle o sunucuya da VPN ile bağlanabilirsiniz. 

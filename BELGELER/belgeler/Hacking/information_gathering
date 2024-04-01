@@ -1,0 +1,29 @@
+            Web Sitesi Bilgi Toplamak
+
+search: information gathering with online
+
+
+1-) maltego
+
+2-) netcraft
+
+3-) YouGetSignal // bir sunucuda birden farklı web sitesi var mı onu tarıyor. Namı değer ters ip taraması.
+
+** Bunun anlamı bir server istediği kadar güvenli olsun eğer aynı sunucudaki bir salağın web serverinde açık varsa onu hacklemesi ile oyun biter.
+
+4-) Archive.org // internetteki bir sitenin önceki haliyle ilgili bilgi verir.
+
+
+5-)Whois lookup //bir sitenin iletişim bilgileri kim register etmiş ne zaman alınmış nereden alınmış. Domain kimin.
+
+
+diğer notlar:
+
+bir sitede Robots.txt dosyasını kali linuxtaki dirb <url> komutunu girerek buluruz.
+
+----SubDomain----
+
+örnek: maps.google.com //googlenin bir subdomaini
+
+githubta web sitelerine bağlı domainleri bulmak için subbrute adlı bir araç var
+

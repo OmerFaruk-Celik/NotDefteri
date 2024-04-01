@@ -1,0 +1,255 @@
+Anaconda Nedir?
+
+Anaconda, veri bilimi ve benzeri bilimsel uygulamalar için bir paket, ortam yöneticisi ve içerisinde 1500+ açık kaynak paket içeren tümleşik bir Python/R platformudur.
+Neden Anaconda?
+
+    İstediğiniz Python sürümünü kolayca istediğiniz bir şekilde kurmanızı ve kullanmanızı sağlar.
+    Şirket bilgisayarlarında olduğu gibi yönetici yetkisi gerektiren durumlardaki problemleri giderir. (conda binary paket indirir, pip ise derleme paketlerini.)
+    Yüksek işlem performansı sağlar.
+    Gerekli sistem kütüphanelerini kurcalamada hiçbir risk bulunmaz.
+    pip repo’da bulunmayan birçok paketi içerir.
+    pip kullanırken diğer paketlerle uyumluluğu göz önünde bulundurarak, doğru paketlerin kurulmasında karşılaşılan problemleri giderir.
+    IBM, Google Colab, Microsoft Azure, vb. gibi iPython sürümlerini destekleyen ortamlara aktarımı problemsiz gerçekleştirmeyi sağlar.
+    Kod ve çalışma ortamının paylaşımını kolaylaştırması, sanal ortamlarının oluşturulabilmesi, dağıtımı kolay hale getirmesi, proje dosyaları ile kütüphaneleri tam/bütün bulundurması ve bağımlılıkları kolayca yönetmeye olanak sağlaması en büyük artılarıdır.
+
+Anaconda Kurulumu
+
+İndirme adresi: https://www.anaconda.com/distribution/
+
+İndirme sayfasında Microsoft, macOS ve Linux için farklı dağıtımlar ve Python sürümüne göre de iki farklı Anaconda sürümü göreceksiniz. Projenizde kullandığınız sürüme göre, kuracağınız Anaconda değişebilir ancak ben en güncel Python sürümü (3.x) olanı tavsiye ederim. Anaconda içinde ortam oluştururken zaten istediğiniz Python sürümüyle ortam oluşturup çalışabiliyorsunuz.
+anaconda python 2 ve python 3
+
+Windows
+
+anaconda python windows installer
+Kurulumda bu aşamaya geldikten sonra: Anaconda’nın terminalde kullanılabilmesi için “Add Anaconda to my PATH environment variable” seçeneğini işaretlemeyi unutmayın. İşaretlemediyseniz veya terminalde “‘conda’ is not recognized as an internal or external command …” diye bir hata ile karşılaşırsanız, “anaconda add to path” gibi anahtar kelimelerle Google’da çözümleri bulabilirsiniz. Kurulum tamamlandıktan sonra terminale conda --version yazarak, Anaconda’nın düzgün yüklenip yüklenmediğini anlayabilirsiniz.
+
+Linux
+
+Linux için “.sh” dosyasını indirdikten sonra kuruluma başlamak için chmod ile dosyaya çalıştırılabilir yetkisi vermeyi unutmayın. Aşağıdaki görseldeki gibi kuruluma başlayabilirsiniz. Kurulum dosyasının adı değişiklik gösterebilir.
+anaconda python linux installer
+
+Kurulum bittikten sonra şöyle bir seçecek çıkacak:
+anaconda python linux installer setup
+
+Anaconda’yı terminalde kullanabilmek için bu aşamada “yes” demeyi unutmayın. Eğer unutursanız veya terminalde “command not found” benzeri bir hata ile karşılaşırsanız, “anaconda add to path” gibi kelimelerle Google’da çözümleri bulabilirsiniz.
+
+Kurulum tamamlandıktan sonra terminale conda --version yazarak, Anaconda’nın düzgün yüklenip yüklenmediğini anlayabilirsiniz.
+Anaconda Nasıl Kullanılmaz?
+
+    Birinci ve en önemlisi: Bir Anaconda ortamını aktif etmeyi unutmak.
+        Yanlış: Kullanılacak paketlerin direkt olarak bilgisayara yüklenmesi ve öylece proje üzerinde çalışılması. (Projeniz doğru çalışabilir ancak ileri süreçte paket, sürüm ve bağımlılık çakışmaları yaşamanız çok olası. Hatta sürüm değiştirmek isterseniz, bilgisayarınızdaki bağımlı paketleri komple silmeniz ve doğru sürümleri arayıp, bulup, tek tek kurmanız gerekebilir.)
+        Doğru: Çalışacağınız projeler için Anaconda’da projeye özel gereksinimlerin ortamını oluşturmak. Farklı projeler için de projeye özel ortamlar arası geçiş yaparak çalışmak. Bu aynı zamanda projenizi ve Anaconda ortamınızı paylaşmanız için de çok büyük kolaylık sağlar.
+    Anaconda ortamını aktif etmemek.
+        Yanlış: Anaconda’da projeye özel ortam oluşturulduktan sonra o ortam üzerinde çalışmamak. (Komik gelebilir ama bununla çok kez karşılaştım. Projeniz için ortam oluşturduysanız ve projenizle ilgili çalışırken ortamı aktif etmemişseniz import hatası almanız çok olası.)
+        Doğru: Eğer projeniz için Anaconda ortamı oluşturmuşsanız aktif etmeyi unutmayın 🙂
+    Tüm paketleri varsayılan Anaconda ortamına kurmak.
+        Yanlış: Projeniz için gerekli ortam oluşturmayıp, varsayılan “base” ortamında çalışmak.
+        Doğru: Her projeniz için “base” ortamını kullanmamak, her şeyi “base” e kurmamak, proje için spesifik ortam oluşturmak.
+
+Anaconda Nasıl Kullanılır?
+
+Terminaldeki kullanımı Windows ile neredeyse aynı olduğu için Linux üzerinden anlatacağım. Bir Linux dağıtımı kullandığınızı varsayıyorum 🙂
+Ortamların Listelenmesi
+
+conda env list veya conda info --envs komutu ile Anaconda ortamlarını görebilirsiniz.
+anaconda python ortam listeleme
+
+Daha hiçbir ortam oluşturmadığınız için sadece varsayılan olarak gelen “base” ortamını görüyoruz.
+
+Yıldız işareti, o an seçili ortamı belirtir.
+Ortam Oluşturma, Paket ve Sürüm Belirtme
+
+Yeni boş ortam oluşturmak için terminale conda create --name qlearning yazınız.
+
+“qlearning” ortam adıdır, projenize göre veya isteğinize göre herhangi bir isim verebilirsiniz. Yeni oluşturduğumuz “qlearning” ortamı, o an kullandığınız Python sürümüyle aynı sürümü kullanır (bu yazıda 3.x) çünkü ortam oluştururken kullanmak istediğimiz Python sürümünü belirtmedik.
+
+Spesifik Python sürümü ile ortam oluşturmak için: conda create -n qlearning python=2.7
+
+conda create --name qlearning anaconda python=3.6 burada anaconda, Anaconda dağıtımını içeren tüm Python paketlerinin meta pakettir. Onun yerine herhangi bir paket (örn: numpy=1.7 veya numpy) veya aralarında boşluk bırakarak birden fazla paket belirtilebilir. Bir paket ismi verdiğimizde (örn: scipy), o paketin uyumlu en güncel sürümü ile ortamı kurar. İstediğimiz bir paket sürümü varsa “=” ile belirtmemiz gerekir, örn: scipy=0.15.0
+
+Spesifik Python sürümü ve birden fazla paket ile ortam oluşturulmasına örnek:
+
+conda create -n qlearning python=3.4 scipy=0.15.0 astroid babel
+
+    Ortam oluştururken istediğiniz tüm programları/paketleri/kütüphaneleri aynı anda yükleyin. Bir seferde bir tane kurmak bağımlılık çakışmalarına yol açabilir
+    conda create --help dostumuzdur. Yeni bir ortam oluştururken başka bir ortamı kopyalayarak oluşturmak isterseniz:
+
+conda create --name ml --clone qlearning
+İpucu
+Boş bir ortam oluşturduğumuzda içinde hiçbir paket ve program bulunmaz, pip ve jupyter’i ayrıca kurmanız gerekir. Bunlar varsayılan (base) ortamda bulunduğu için bu ortamı kopyalayarak oluşturulabilirsiniz. Ayrıca kuracağınız paketler daha önce indirilmişse yeniden indirmez, önceki indirileni kopyalar.
+Ortamı Aktif Etmek
+
+Yeni oluşturduğunuz veya daha önceden var olan ortamı aktif etmek için:
+
+conda activate qlearning
+
+    qlearning bu doküman için oluşturduğum ortam adıdır, istediğiniz ortam adı ile değiştirin. Ortam listesini görmek için: conda env list
+    conda active environments
+
+Ortamı aktif ettikten sonra shell’in başında “(qlearning)” yazısını göreceksiniz. Ortamları listelediğinizde de yıldız işaretinin “qlearning” ortamının başında olduğunu görebilirsiniz.
+
+Bu, şu anlama gelmektedir: ortamın (örnekte qlearning) aktif olduğu terminalde, ortamın içerisindeki tüm kütüphane, paket vb. her şeye erişebilir, güncelleyebilir, düzenleyebilir ve kullanabiliriz. Ayrıca terminalde çalıştıracağımız bir Python kodu veya yazılımı, ortama spesifik olarak yüklediğimiz paket ve kütüphaneleri kullanacaktır. Örneğin bu sayede bir terminalde Python 2.x sürümü ile bir program çalıştırırken, başka bir terminalde Python 3.x ve Numpy 1.7 sürümü ile başka bir projede üzerinde çalışabiliriz.
+
+Bir ortamı aktif etmeden önce, o an aktif olan ortamın durdurulması/kapatılması önerilir.
+Ortamı Kapatmak, Ortamdan Çıkmak
+
+Bulunduğunuz ortamı kapatmak isterseniz: conda deactivate
+conda deactivate environments
+
+Ortamdaki Yüklenmiş Paketleri Listelemek
+
+Hangi ortamda hangi paketler yüklü diye görmek için:
+
+    Ortam aktif değilse: conda list -n qlearning
+    Ortam aktif ise: conda list
+
+Spesifik bir paketi ve ayrıntılarını görmek için yukarıdaki komutların yanına paket adını yazabilirsiniz.
+Paketleri Yönetmek ve Ortama Paket Yüklemek
+Paket Aramak
+
+Yükleme için hazır/uygun olan bir paketi aramak (örn: SciPy), görüntülemek için: conda search scipy
+
+Anaconda.org üzerinden: conda search --override-channels --channel defaults scipy
+
+Spesifik bir paketi (örn: iminuit), belirli bir kanal üzerinden aramak için:
+
+conda search --override-channels --channel http://conda.anaconda.org/mutirri iminuit
+Paket Yüklemek
+
+Var olan bir ortama (örn: qlearning), spesifik bir paket (örn: SciPy) yüklemek için: conda install --name qlearning scipy
+
+    Eğer paketin kullanılacağı ortam “--name” kullanılarak belirtilmezse o an aktif olan ortama otomatik olarak yüklenir. Spesifik bir sürüm kurmak için: conda install scipy=0.15.0
+
+Birden fazla paketi aynı anda kurmak için: conda install scipy curl
+
+İpucu
+Bütün bağımlılıkların aynı anda yüklenebilmesi için tüm paketlerin aynı anda kurulması önerilir.
+Sürüm belirterek birden fazla paketin aynı anda yüklenmesi: conda install scipy=0.15.0 curl=7.26.0
+
+Spesifik Python sürümüne göre paket yüklenmesi: conda install scipy=0.15.0 curl=7.26.0 -n qlearning
+İpucu
+Spesifik bir Python sürümü kullanmak istiyorsanız, kullanmak istediğiniz sürüme özel ortam oluşturup o ortamda kullanmanız önerilir.
+Anaconda.org Üzerinden Paket Yüklemek
+
+Conda install ile bulamadığımız, ulaşamadığımız paketleri anaconda.org üzerinden elde edebiliriz.
+
+    https://anaconda.org/ adresine gidiniz.
+    Arama kısmına bottleneck yazarak aratınız.
+    Kurmak istediğiniz paketi bulunuz ve detaylar için tıklayınız.
+        Arama sonuçlarında ve paketin ayrıntı sayfasında indirme kanalı bilgisini görebilirsiniz. Bizim örneğimizde kanal: pandas
+        anaconda pandas bottleneck
+    Artık kanal adını biliyoruz (pandas) conda install diyerek Anaconda.org üzerindeki pandas kanalından yükleyebiliriz:
+    conda install -c pandas bottleneck
+    Paketin yüklenip yüklenmediğini doğrulamak için conda list diyerek bakabiliriz.
+
+Conda’da Olmayan Paketleri Yüklemek
+
+Eğer kurmak istediğiniz paket conda veya anaconda.org’da bulunmuyorsa paketi, başka bir paket yöneticisi olan “pip” ile ortamınıza kurabilirsiniz.
+Bilgi
+
+    Pip paketleri, conda paketlerinin tüm özelliklerini içermemektedir, bu yüzden ilk olarak conda üzerinden paketin kurulması önerilmektedir. Eğer önerilen yöntemler ile paketi bulamazsanız ancak o zaman pip ile kurmayı deneyiniz. Pip ve conda paketleri arasındaki farklılıklar uyumlulukta kaçınılmaz kısıtlamalara neden olur, ancak conda yine de pip ile mümkün olduğunca uyumlu çalışır.
+    Pip’in bir conda ortamının dışına veya bir conda ortamının içine kurulu olması mümkündür.
+    Conda uyumluluk avantajlarından yararlanmak için, mevcut aktif conda ortamına pip yükledikten sonra pip ile paket kurulumu yaptığınızdan emin olun. “conda list”, bu şekilde kurulmuş paketleri, pip ile kurulduklarını gösteren bir etiketle gösterir.
+
+Conda ile pip kurulumu ve pip ile paket kurulumuna örnek:
+
+1
+2
+3
+4
+
+	
+
+conda install -n qlearning pip
+conda activate qlearning
+pip <pip_subcommand>
+pip install simpy
+
+Simpy, conda veya anaconda.org’da bulunabilir. Mümkünse Conda veya Anaconda.org üzerinden yüklemek daha önemlidir. Yukarıdaki sadece pip’e bir örnek.
+conda pip install
+
+Paketleri Güncellemek
+
+Spesifik bir paketi güncellemek: conda update biopython
+
+Python’ı güncellemek: conda update python
+
+Conda’nın kendisini güncellemek: conda update conda
+
+Anaconda.org varsayılan kanalı üzerinden belirtilen ortamdaki conda’yı güncellemek: conda update -n qlearning -c defaults conda
+
+Anaconda meta paketi güncellemek:
+
+1
+2
+
+	
+
+conda update conda
+conda update anaconda
+
+Paketlerin Güncellenmesini Önlemek (pinning)
+
+Bazı projeler için belirli bir paket sürümü kullanmak zorunda kalabilir ve onu güncellemek istemeyebilirsiniz.
+
+“qlearning” ortamındaki NumPy (1.14.1) paketinin “1.14” sürümünün herhangi bir alt sürümünde kalmasını ve SciPy paketinin de spesifik olarak “1.0.1” sürümünde kalmasını istediğimizi varsayalım.
+conda list specific
+
+Belirli paketlerin güncellenmesini önlemek için conda ortamının (qlearning) kurulu olduğu klasörün altındaki “conda-meta” klasörünün içine “pinned” isimli bir dosya oluşturmamız ve güncellenmesini istemediğimiz paketleri yazmamız gerekiyor.
+Bu ortamın konumu aşağıdaki gibidir (sizde farklı olabilir):
+conda pinning meta directory
+
+“pinned” dosyasını oluşturup, yukarıda belirttiğimiz senaryo için paket sürümlerini belirtmek:
+conda create pinned file
+
+“qlearning” ortamını aktif edip conda update numpy komutunu çalıştırdığımızda NumPy paketi yine 1.14 sürümünde kalacaktır ve belirttiğimiz şekilde alt sürümün güncel sürümüne güncellenecektir (NumPy 1.14.1 -> 1.14.6). Asla daha ileri sürüme (1.15.* ve üzeri) güncellenmeyecektir.
+
+conda update scipy komutunu yazdığımızda ise güncel sürüm olmamasına rağmen güncel deyip aynı sürümde kalacaktır ancak bilerek daha güncel bir sürümü kurmak istersek hata verip belirttiğimiz sürümde kalacaktır.
+conda update pinned package
+
+Paket Silmek
+
+“qlearning” ortamındaki SciPy paketini silmek: conda remove --n qlearning scipy
+
+Bulunduğun ortamdaki SciPy paketini silmek: conda remove scipy
+
+Birden fazla paketi aynı anda silmek: conda remove scipy curl
+
+Silinen paketleri doğrulamak için: conda list
+Ortamı Paylaşmak, Ortamı Dışa Aktarmak
+
+Çalıştığınız projenin kodlarını paylaşırken, çalıştığınız conda ortamını da paylaşmak önemlidir. Sizden sonraki kişi, sizin çalıştığınız ortamın aynısını kurmaya çalışmadan ortamı hızlıca içe aktararak kurar.
+
+1
+2
+
+	
+
+conda activate qlearning
+conda env export > environment.yml
+
+Not
+“environment.yml” dosyası, hem pip hem de conda paketlerini içermektedir.
+Bu dosyayı, ortamı paylaşmak istediğiniz kişiye gönderin.
+conda environment export
+
+“environment.yml” dosyasının ilk satırı, ortamın adını belirtir. Geri kalan da ortamdaki paketler…
+Ortamı İçe Aktarmak
+
+“environment.yml” dosyası sayesinde ortamı kolayca oluşturabilir ve sorunsuz çalışmaya başlayabilirsiniz.
+
+1
+2
+
+	
+
+conda env create -f environment.yml
+conda activate qlearning
+
+    Yeni ortamın doğru kurulduğunu doğrulamak için: conda list
+
+Ortamı Silmek
+
+conda remove --name qlearning --all ya da conda env remove --name qlearning
+Doğrulamak için: conda info --envs

@@ -1,0 +1,59 @@
+       Shadon Bilgi Toplama Motoru
+
+https://www.shodan.io // link adresi
+
+1-) Webcam Hackleme
+
+arama motoruna webcams yazarasan shadon o anda aktif olan webcamleri verecek.
+
+2-) uyduları bulmak
+
+arama motoruna vsat yazarasan shadon o anda aktif olan portlardan verecek.
+
+-filtreleme
+
+vsat port 80 // 80 portundaki uygulamarı verecek.
+
+port 22 // ssh ile çalışan sunucuları verir.
+
+port 22 country"FR" //fransadaki ssh servislerini bulur.
+
+
+3-) Zafiyet Olan Servisleri Bulmak
+
+
+internete bağlı bir bilgisayarın açıklarını bulmak
+
+os:'Windows XP' //örnek olarak verilebilir.
+
+os:'Windows XP' country:"US" // amerikadaki Windows XP kullanan bilgisayarlar
+
+
+--> aynı zamanda version aramasıda yapılabilir.
+
+vsftpd 2.3.4 // versiyonunu shadowda arar. (güvenlik açığı bulanan bir versiyon)
+
+apache 2.2.3 // apache servisinin 2.2.3 versiyonunda arama yapar ve kullanan bilgisayarları bulur.
+
+
+
+4-) Shadon Terminalden Kullanmak
+
+pip install shodan // shodan kali linux'a yükler.
+
+shodan --help
+
+shodan init <hesabımızdaki API KEY yapıştır>
+
+örnek:  shodan init 4UlNQHT1HNWv2aCmzRCuV1PIEyjGStv7
+
+ans>> Successfully initialized // işlem tamam
+
+kullanımı:
+
+shodan host 189.201.128.250 // belirtilen ip adresine sorgu atacaktır
+
+
+
+
+

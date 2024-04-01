@@ -1,0 +1,61 @@
+touch: boş belge oluşturur.
+örnek; touch belge, touch belge.txt
+
+
+file: file birşey
+#birşey hakkında bilgi verir
+
+nano: nano belge
+
+cat: belgenin içeriğini sunar
+
+less: cat ile aynı şeydir. Kısa içerikler için ideal
+
+history: daha önce ekrana girdiğimiz komutları listeler
+
+!!: son çalıştırdığımız komutu çalıştırır
+
+!<çalıştırmak istediğin dosyanın numarası(sirasi)>:örneğin history dediğimizde listelenen komutların numaraları var. o numaralar ile ! işaretini yan yana koyup çalıştırabiliriz
+
+cp: kopyalama işlemi
+örnek: cp belge.txt Desktop/: belge desktopa kopyalandı.
+
+cp -r: dolu dizinleri kopyalar
+cp -i: kopyalarken sorar. Aynı belge varsa interaktif bir şekilde sorar
+
+mv: mv belge.txt dokuman.tx: belgenin ismi dokuman olur
+
+mv: mv dokuman.txt  Desktop/dokuman.txt
+#dokuman yine dokuman ismiyle desktopa taşındı
+
+mv -t= dolu dizinleri taşımaya yarar.
+
+mv dosya1 dosya2 Desktop/: iki dosyayı desktopa taşır.
+
+mv dosya/belge: dosyanın ismini belge yaptı.
+
+mkdir: dizin oluşturur.
+
+mkdir -p deneme/deneme1/deneme2: iç içe dizinler oluşturur.
+
+rm : temizle.
+rm -f: korumalı dosyaları sier.
+rm -i: interaktif olarak sorar.
+rm -i *.txt: tüm txt dosyalarını isimlerini tek tek sorarak siler.
+rm -r: dolu dizinleri siler.
+rmdir : içi boş dizinleri siler.
+
+find : bulur:)
+find /: tüm sistem içinde arar.
+find /root: root içinde arar.
+örnek: find / -name dosya_adı: dosya_adı adlı dosyayı tüm makinede arar.
+find / -name dosya_adı -type f : file türünde arama gerçekleştirir
+
+find / -name dosya_adı -type d : dizinile türünde arama gerçekleştirir
+
+help: yardım
+örnek: help pwd
+
+
+
+

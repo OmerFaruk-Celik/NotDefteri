@@ -1,0 +1,44 @@
+GitHub hesabınıza SSH ile bağlanarak dosya yüklemek için aşağıdaki adımları izleyebilirsiniz:
+
+    SSH Anahtarınızı Oluşturun (Eğer Henüz Yoksa):
+    Terminal veya Komut İstemi açın ve aşağıdaki komutu kullanarak SSH anahtar çiftini oluşturun. E-posta adresinizi girdiğinizden emin olun.
+
+    bash
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+Bu komut, varsayılan olarak SSH anahtarlarınızı ~/.ssh/ dizinine oluşturur.
+
+SSH Anahtarını GitHub'a Ekleyin:
+GitHub hesabınıza giriş yapın, sağ üst köşedeki profil resminize tıklayın ve "Settings" (Ayarlar) seçeneğini seçin. Sol menüden "SSH and GPG keys" (SSH ve GPG anahtarları) seçeneğine gidin ve "New SSH key" (Yeni SSH anahtarı) düğmesine tıklayın. Anahtarınızı ~/.ssh/id_rsa.pub dosyasından kopyalayın ve GitHub'a yapıştırın.
+
+GitHub Depo URL'sini Kopyalayın:
+GitHub'da yüklemek istediğiniz depoya gidin ve "Code" (Kod) düğmesine tıklayın. "Clone with SSH" (SSH ile Klonla) seçeneğini seçerek depo URL'sini kopyalayın.
+
+Dosyaları Yükleyin:
+Terminal veya Komut İstemi'nde, yüklemek istediğiniz dosyaların bulunduğu dizine gidin ve aşağıdaki komutu kullanarak depoyu klonlayın:
+
+bash
+
+git clone git@github.com:KULLANICIADI/DEPOADı.git
+
+Not: KULLANICIADI ve DEPOADı kısımlarını GitHub kullanıcı adınız ve depo adıyla değiştirin.
+
+Dosyaları Ekleyin ve Yükleyin:
+Dosyalarınızı bu klonlanmış depo dizinine ekleyin ve GitHub'a yüklemek için aşağıdaki komutları kullanın:
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+git push komutunda hata almanızın nedeni, origin ile master arasındaki referans uyuşmazlığıdır. Eski bir kullanımda master ana dalı olarak kullanıldığı için, yeni bir kullanımda bu dal yerine main dalı kullanılıyor olabilir. Bu nedenle, doğru komut git push origin main olacaktır. Şu şekilde düzeltebilirsiniz:
+
+bash
+
+git push origin main
+
+Bu komut, yerel main dalını GitHub'daki origin deposuna gönderir. Bu işlemi yapmadan önce, yereldeki ve uzak sunucudaki değişiklikleri kontrol etmek için git pull komutunu kullanmanızı öneririm:
+
+bash
+
+git pull origin main
+

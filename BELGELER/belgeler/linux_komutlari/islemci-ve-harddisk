@@ -1,0 +1,45 @@
+ sudo lshw -short 
+
+Daha detaylı çıkt için;
+
+ sudo lshw 
+ 
+ 
+ Disk (Hard disk) Bilgileri
+
+  df -lh 
+  
+  
+   Disk bölümlendirmede kullanılan fdisk komudunu " -l " parametresini ekleyerek disklerin bölümlerini listelemek için kullanabiliriz. Bunun için root hesabı veya root yetkisi (sudo grubuna üye) bir kullanıcı gerekiyor.
+
+ sudo fdisk -l 
+ 
+  İşlemci (CPU) Bilgileri
+
+İşlemci hakkında deyatlı olarak tüm bilgileri ögrenebilirsiniz.
+
+ cat /proc/cpuinfo 
+ 
+ 
+ Sisteminizdeki işlemcinizin kaçtane fiziksel çekirdiği var? Ögrenmek istiyorsanız. Yukardaki yazdığımız komut satırının sonuna " | grep cores " ekleyerek ögrenebiliriz.
+
+ cat /proc/cpuinfo | grep cores 
+ 
+  Bellek (RAM&Swap) Bilgileri
+
+Sistemin ne kadar bellek miktarına sahip olduğunu ögrenmek istiyorsanız. Aşağıdaki komudu komut satırına yazarak ögrenebilirsiniz.
+
+ free -m 
+ 
+ Grafik Kartı (GPU) Bilgileri
+
+Sistem üzerinde çalışan grafik kartı bilgilerini öğrenmek için tüm PCI cihazlarını listeleyen lspci komudu kullanılabilir.
+
+ lspci | grep VGA 
+ 
+ 
+ Diğer Bilgiler (Ethernet, kablosuz, ses kartları vb.)
+
+Sistem üzerinde çalışan diğer donanımları görmek için "lspci" komudu kullanılabilir.
+
+ lspci 

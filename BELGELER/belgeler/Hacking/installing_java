@@ -1,0 +1,8 @@
+ sudo apt update
+ sudo apt install default-jdk
+ 
+  sudo apt-cache search openjdk //bu listeden istediğin jdk'yı indirebilirsin.
+
+
+ sudo update-alternatives --config java
+ sudo update-alternatives --config javac

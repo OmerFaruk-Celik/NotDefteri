@@ -1,0 +1,9 @@
+SpeechRecognition
+cffi
+pandas
+pyaudio
+soundfile
+pysndfx
+
+#sudo apt install libgirepository1.0-dev // bu paket olmadan pygobject inmiyor
+PyGObject

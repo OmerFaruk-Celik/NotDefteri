@@ -1,0 +1,75 @@
+Çıktı yönlendirme
+
+Çalıştırılan komutların sonuçlarını bir dosya yazdırmak veya eklemek için çıktı yönlendirme kullanılır.
+
+Linux komutları temel olarak 3 farklı tanımlayıcıya sahiptir.
+
+Standart girdi (stdin) < – Komuta girdi olarak kullanılır.
+
+Dosya içeriği komuta girdi olarak kullanılır.
+
+komut < dosya
+
+Standart çıktı (stdout) > – Komut sonucu çıktı olarak kullanılır.
+
+Temel olarak aşağıdaki biçimde kullanılır.
+
+komut > dosya
+
+Dosya ve dizinleri dosyaya kaydetmek için aşağıdaki komut kullanılabilir.
+
+ls -lah > liste.txt
+
+Dosya üzerine ekleme yapmak için çift yönlendirme (>>) kullanılabilir.
+
+komut >> mevcut_dosya
+
+Dosya ve dizinleri dosya üzerine kaydetmek için aşağıdaki komut kullanılabilir.
+
+ls -lah >> liste.txt
+
+Standart hata (stdorr) 2> – Komut hatası çıktı olarak kullanılır.
+
+hatali_komut 2> dosya
+
+Komut hatasını dosyaya kaydetmek için aşağıdaki komut kullanılabilir.
+
+hatali_komut 2> hata.txt
+
+Ardışık komutlar
+
+Bir komutun sonucunu başka bir komuta kullanmak için ardışık komutlar (|) kullanılır.
+
+Genellikle komut çıktısında arama yapmak için kullanılır.
+
+Listeleme komutunun sonucu grep komutuna gönderilerek komut sonucunda arama yapılmıştır.
+
+ls -lah | grep '^d'
+
+Çalışan işlemler çıktısı wc komutuna gönderilerek çalışan işlem sayısı bulunmuştur.
+
+ps -aux | wc -l
+
+Uzun komut sonuçlarını parça parça okumak için more veya less komutuna yönlendirme de sıklıkla kullanılır.
+
+ls -lah | more
+
+ls -lah | less
+
+Bağlı komutlar
+
+Bir komutun çalışma durumuna göre sonraki komutun çalışması için bağlı komutlar (&&) kullanılır.
+
+make && make install
+
+Birinci komut çalışmadığında ikinci komut çalışmayacaktır.
+Sıralı komutlar
+
+Komutları sırayla çalıştırmak için sıralı komutlar (;) kullanılır.
+
+komut;komut1;komut2
+
+pwd;ls -lah
+
+pwd;ls -lah;date
+

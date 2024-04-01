@@ -1,0 +1,29 @@
+DNS(Domain Name System) nedir?
+
+Türkçe olarak Alan Adı Sistemi olan DNS girdiğimiz sitelerin IP adresini tutan bir adres defteri gibidir.Girdiğimiz bir domain tıkladığımızda kullandığımız DNS bizi yönlendirdiği için bazen ulaşamama durumları oluyor farklı nedenlerden o IP yı engellıyorlar ve bu site yasaklanmıştır diyor bizde bunun için farklı DNS ler kullanarak erişimimize devam ediyoruz 🙂
+
+Türkiyede yasaklanan sitelerden zamanında youtube,twitter gibi sitelerde girdiği için herkes DNS değiştirmeyi ve yardımcı proğramlar,browserler kullanmayı öğrendi sanırım yasakların tek iyi sonucu 🙂
+
+Fakat Linux biraz daha az kullanıldığı için her yerde windows için anlatılıyor.Durum böyle olunca bende Linux a yeni başlamış arkadaşların işine yarayabilir diye Linuxta DNS Değiştireceğim 🙂
+
+Linuxta DNS adresleri /etc dizinin altınta resolv.conf  dosyasında tutuluyor. (.conf configuration  dan geliyor ayar,yapılandırma dosyası demektır.)
+
+1
+
+sudo ile root yetkisi alarak resolv.conf  ayar dosyasını vim editörü ile açtık.(vim editörü yüklü değil ise “sudo apt-get install vim” komutu ile yükleyebilir yada nano ve vi  editörlerinden birini kullanabilirsiniz.)
+
+2
+
+Default olarak gelen DNS imiz 127.0.1.1 adresini görüyoruz biz bunu Google’ın DNS i olan 8.8.8.8 /8.8.4.4 ile değiştireceğiz.Bunun için “i” tuşuna basarak editörümüzü INSERT hale getireceğiz.
+
+3
+
+DNS imizi böyle girdikten sonra “ESC” tuşuna basarak “:wq” yazarak vim editörüne kaydet ve çık komutunu vermiş olduk.Fakat bu yaptığımız işlem bilgisayar yeniden başlattığımızda silinip eski halini alacak.Bunun için bizde
+
+chattr +i /etc/resolv.conf 
+
+komutunu vererek işlemimizi kalıca hale getireceğiz.Chattr +i dosyamızı kilitlemeye yarayan komuttur.Ileri okuma için lütfen tıklayınız.
+
+Screenshot from 2014-10-06 15:42:53
+
+Yazım burada sona eriyor başka bir yazıda görüşmek üzere 🙂

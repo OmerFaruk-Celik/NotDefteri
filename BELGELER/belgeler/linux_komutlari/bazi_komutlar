@@ -1,0 +1,21 @@
+SSH:
+
+ssh celik@kali
+>>password :
+
+#başka bilgisayara bağlanmayı sağlar
+
+ssh celik@ip_adresi(bağlanacağın bilgisayarın)
+
+echo $SHELL: kullandığın kabuğu söyler
+
+man : man komut= o koumudun kullanma kılavuzunu verir.
+örnek; man passwd
+
+echo $PATH: heryerden çağrılabilen dizilerin olduğu yerleri gösterir
+
+which: which pip = pip'in nerede olduğunu söyler
+
+          
+          
+          

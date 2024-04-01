@@ -1,0 +1,30 @@
+DENEM
+On Ubuntu or debian install dependencies by,
+
+sudo apt install -y libgtk-3-dev build-essential gcc g++ pkg-config make hostapd libqrencode-dev libpng-dev
+
+On Fedora/CentOS/Red Hat Enterprise Linux/Rocky Linux/Oracle Linux
+
+sudo dnf install -y gtk3-devel gcc gcc-c++ kernel-devel pkg-config make hostapd qrencode-devel libpng-devel
+
+Installation
+
+git clone https://github.com/lakinduakash/linux-wifi-hotspot
+cd linux-wifi-hotspot
+
+#build binaries
+make
+
+#install
+sudo make install
+
+Uninstallation
+
+sudo make uninstall
+
+Running
+
+You can launch the GUI by searching for "Wifi Hotspot" in the Application Menu or using the terminal with:
+
+wihotspot
+

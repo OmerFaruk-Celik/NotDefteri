@@ -1,0 +1,159 @@
+==============Linux’da Bir .tar Arşiv Dosyası Oluşturma====================
+
+Hem dizinler, hem de bir dosya için .tar sıkıştırması yapabilirsiniz. Bir arşiv örneğiyse:
+
+tar -cvf ornekArsiv.tar /home/ornekArsiv
+
+Bu örnekte sıkıştırılması gereken dizin /home/ornekArsiv‘dir ve bunun sonucu olarak ornekArsiv.tar oluşacaktır.
+
+Komut -cvf seçenekleri kullanır:
+
+    c – Yeni bir .tar dosyası oluşturur
+    v – sıkıştırma işleminin ayrıntılı açıklamasını gösterir
+    f – dosya adı
+========================================================================
+
+=========================Linux’da bir .tar.gz Dosyası Oluşturma=========================
+
+Eğer daha iyi bir sıkıştırma istiyorsanız ayrıca .tar.gz kullanabilirsiniz. Bunun bir örneğiyse:
+
+tar -cvzf ornekArsivArchive.tar.gz /home/ornekArsiv
+
+Ek z seçeneği gzip sıkıştırılmasını temsil eder. Alternatif olarak .tar.gz dosyasına oldukça benzer olan .tgz dosyası oluşturabilirsiniz. Bunun bir örneğiyse:
+
+tar -cvzf ornekArsiv.tgz /home/ornekArsiv
+==========================================================================
+
+=======================Linux’da bir .tar.bz2 Dosyası Oluşturma==============================
+
+.bz2 dosyası gzip’e kıyasla daha fazla sıkıştırılma sağlar. Ancak, sıkıştırma ve sıkıştırma işlemini geri almak daha uzun sürecektir. Bunu oluşturmak için -j seçeneğini kullanmanız gerekir. Bu işlemin bir örneğiyse:
+
+tar -cvjf ornekArsiv.tar.bz2 /home/ornekArsiv
+
+Bu .tar.tbz veya .tar.tb2‘ye benzerdir. Bunun bir örneğiyse aşağıdaki gibidir:
+
+tar -cvjf ornekArsiv.tar.tbz /home/ornekArsiv
+
+tar -cvjf ornekArsiv.tar.tb2 /home/ornekArsiv
+======================================================================
+==========================================================================
+Linux’da .tar Dosyalarını Açma
+
+Linux tar komutu ayrıca bir dosyanın içindekileri çıkarmak için kullanılabilir. Aşağıdaki komut dosyaları mevcut dizine çıkaracaktır:
+
+tar -xvf ornekArsiv.tar
+
+Eğer dosyaları farklı bir dizine çıkarmak istiyorsanız -C seçeneğini kullanabilirsiniz. Bunun bir örneğiyse aşağıdaki gibidir:
+
+tar -xvf ornekArsiv.tar -C /home/ExtractedFiles/
+
+Benzer bir komut .tar.gz dosyalarında sıkıştırma işlemini geri almak için kullanılabilir:
+
+tar -xvf ornekArsiv.tar.gz
+
+tar -xvf ornekArsiv.tar.gz -C /home/ExtractedFiles/
+
+.tar.bz2, .tar.tbz veya .tar.tb2 dosyalarında sıkıştırma işlemi benzer şekilde geri alınabilir. Komut satırında aşağıdaki komutu kullanabilirsiniz:
+
+tar -xvf ornekArsiv.tar.bz2
+
+Linux’da Bir Arşivin İçeriklerini Listeleme
+
+Arşiv oluşturulduktan sonra içerikleri aşağıdakine benzer bir komut kullanarak listeleyebilirsiniz:
+
+tar -tvf ornekArsiv.tar
+
+Bu, dosyaların listesini zaman bilgisi ve izinlerle birlikte görüntüleyecektir. Benzer olarak, .tar.gz için aşağıdaki gibi bir komut kullanabilirsiniz:
+
+tar -tvf ornekArsiv.tar.gz
+
+Bu, ayrıca aşağıda gösterdiğimiz gibi .tar.bz2 dosyaları için de çalışır:
+
+tar -tvf ornekArsiv.tar.bz2
+
+Tek Bir .tar Dosyasını Açma
+
+Arşiv oluşturulduktan sonra tek bir dosya çıkaratabilirsiniz. Bunun bir örneği aşağıdaki gibidir:
+
+tar -xvf ornekArsiv.tar example.sh
+
+Burada ornekArsiv.tar’dan çıkarılacak tek dosya example.sh‘dir. Alternatif olarak aşağıdaki komutu kullanabilirsiniz:
+
+tar --extract --file= ornekArsiv.tar example.sh
+
+.tar.gz’den tek bir dosya çıkarmak için aşağıdaki gibi bir komut kullanabilirsiniz:
+
+tar -zxvf ornekArsiv.tar.gz example.sh
+
+Veya alternatif olarak:
+
+tar --extract --file= ornekArsiv.tar.gz example.sh
+
+.tar.bz2’den tek bir dosya çıkarmak içinse böyle bir komut kullanabilirsiniz:
+
+tar -jxvf ornekArsiv.tar.bz2 example.sh
+
+Veya alternatif olarak bunun gibi bir komut da kullanılabilir:
+
+tar --extract --file= ornekArsiv.tar.bz2 example.sh
+
+Gördüğünüz gibi tar komutunun söz diziminde esnekliği oldukça yüksektir.
+.tar Arşivlerinden Birden Fazla Dosya Çıkarma
+
+Eğer birden fazla dosya çıkarmak istiyorsanız aşağıdaki formatta bir komut kullanın:
+
+tar -xvf ornekArsiv.tar "file1" "file2"
+
+.tar.gz için kullanabileceğiniz komut:
+
+tar -zxvf ornekArsiv.tar.gz "file1" "file2"
+
+.tar.bz2 için kullanabileceğiniz komut:
+
+tar -jxvf ornekArsiv.tar.bz2 "file1" "file2"
+
+Tek Bir Kalıpla Birden Çok Dosya Çıkarma
+
+Eğer sadece .jpg türündeki dosyaları çıkarmak gibi kalıplarla arşivden dosya çıkarmak istiyorsanız wildcards‘ı kullanın. Bu komutun bir örneği:
+
+tar -xvf ornekArsiv.tar --wildcards '*.jpg'
+
+.tar.gz için kullanabileceğiniz komut:
+
+tar -zxvf ornekArsiv.tar.gz --wildcards '*.jpg'
+
+.tar.bz2 için kullanabileceğiniz komut:
+
+tar -jxvf ornekArsiv.tar.bz2 --wildcards '*.jpg'
+
+.tar Arşivine Dosya Ekleme
+
+Belirli türden dosyaları çıkarabildiğiniz gibi varolan bir arşive dosya da ekleyebilirsiniz. Bunu yapmak için karşılığı append olan -r seçeneğini kullanmalısınız. Tar hem dosya, hem de dizin ekleyebilir.
+
+İşte aşağıda varolan ornekArsiv.tar‘a ornek.jpg dosyasını eklediğimiz örnek:
+
+tar -rvf ornekArsiv.tar example.jpg
+
+Ayrıca bir dizin de ekleyebilirsiniz. Aşağıdaki örnekte gorsel_dir dizini ornekArsiv.tar’a eklenmiştir:
+
+tar -rvf ornekArsiv.tar image_dir
+
+.tar.gz veya .tar.bz2 dosyalarınaysa dosya veya klasör ekleyemezsiniz.
+Linux’da bir .tar Dosyasını Doğrulama
+
+Linux tar komutu ayrıca bir arşivi doğrulamak için de kullanılabilir. Bunu yapabileceğiniz birçok yoldan biriyse:
+
+tar -tvf ornekArsiv.tar
+
+Bu, .tar.gz veya .tar.bz2 dosyalarına uygulanamaz.
+Linux’da Arşiv Boyutunu Kontrol Etme
+
+Bir arşiv oluşturduktan sonra boyutunu kontrol edebilirsiniz. Boyut KB (Kilobayt) olarak gösterilecektir.
+
+İşte bu türden komutların farklı arşiv dosyalarıyla örnekleri:
+
+tar -czf - ornekArsiv.tar | wc -c
+
+tar -czf - ornekArsiv.tar.gz | wc -c
+
+tar -czf - ornekArsiv.tar.bz2 | wc -c

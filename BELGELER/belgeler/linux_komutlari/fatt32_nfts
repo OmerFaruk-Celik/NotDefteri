@@ -1,0 +1,47 @@
+Linux'ta Disk Bölümünü Biçimlendirme​
+kullanarak disk bölümlerini biçimlendirmenin üç yolu vardır. mkfskomut, dosya sistemi türüne bağlı olarak:
+
+    ext4
+    FAT32
+    NTFS
+
+Linux'ta disk bölümlerini biçimlendirmek için genel sözdizimi şöyledir:
+mkfs [options] [-t type fs-options] device [size]
+
+
+ext4 Dosya Sistemi ile Disk Bölümünü Biçimlendirme​
+1. Aşağıdaki komutu kullanarak bir disk bölümünü ext4 dosya sistemiyle biçimlendirin:
+sudo mkfs -t ext4 /dev/sdb1
+
+
+2. Ardından, şu komutu kullanarak dosya sistemi değişikliğini doğrulayın:
+lsblk -f
+
+
+Terminal, blok aygıtların bir listesini yazdırır.
+3. Tercih edilen bölümü bulun ve ext4 dosya sistemini kullandığını onaylayın.
+Linux'ta ext4 dosya sistemini kullanarak disk bölümünü biçimlendirme işlemi.
+
+FAT32 Dosya Sistemi ile Disk Bölümünü Biçimlendirme​
+1. Bir diski FAT32 dosya sistemiyle biçimlendirmek için şunu kullanın:
+sudo mkfs -t vfat /dev/sdb1
+
+
+2. Tekrar çalıştırın lsblkdosya sistemi değişikliğini doğrulamak ve tercih edilen bölümü listeden bulmak için komut.
+lsblk -f
+
+
+Beklenen çıktı:
+Linux'ta FAT32 dosya sistemini kullanarak disk bölümünü biçimlendirme.
+
+NTFS Dosya Sistemi ile Disk Bölümünü Biçimlendirme​
+1. Çalıştırın mkfskomutunu verin ve bir diski biçimlendirmek için NTFS dosya sistemini belirtin:
+sudo mkfs -t ntfs /dev/sdb1
+
+
+Biçimlendirme işlemi tamamlandığında terminal bir onay mesajı yazdırır.
+2. Ardından, aşağıdakileri kullanarak dosya sistemi değişikliğini doğrulayın:
+lsblk -f
+
+
+3. Tercih edilen bölümü bulun ve NFTS dosya sistemini kullandığını onaylayın.

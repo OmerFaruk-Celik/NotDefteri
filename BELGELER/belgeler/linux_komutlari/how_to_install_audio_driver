@@ -1,0 +1,13 @@
+open a terminal copy and past
+
+apt-get install alsa-utils -y
+
+reboot
+and then copy and past this
+
+systemctl --user enable pulseaudio && systemctl --user start pulseaudio
+
+sound icon is on top right tool-bar
+
+
+sounds like you have already tried this and it worked for me 

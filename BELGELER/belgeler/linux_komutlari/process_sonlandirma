@@ -1,0 +1,15 @@
+İlk önce terminali açıyoruz ve ps aux yazarak çalışan processleri buluyoruz.
+
+ps aux
+
+Çıkan listeden sonlandırmak istediğimiz processi buluyoruz.
+
+khantunckale     5609  0.0  3.8 713568 151400 ?       Sl   18:03   0:05 /usr/lib/firefox
+
+Sonlandıracağımız processin olduğu satırın başında, o processin numarası bulunmaktadır. (Burada 5609)
+
+Sonlandırmak için yapmamız gereken işlem ise sudo kill -9 proccessNumarası yazmak. Yani örneğimizde;
+
+sudo kill -9 5609
+
+ps -fu celik      ##celik kullanıcının kullandığı belleği gösterir

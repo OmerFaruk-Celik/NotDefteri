@@ -1,0 +1,77 @@
+				SQL Giriş
+				
+				
+				
+https://sqliteonline.com/   //burada sql öğrenebilirisn
+
+
+1-) Veri Tabanına yeni değerler eklemek
+
+INSERT INTO demo (ID,Name,Hint) VALUES (26,"FUCK YOU","IN ASS");
+
+
+
+2-) Degerleri Silmek, Güncellemek
+
+DELETE FROM demo WHERE (ID=1);  //degerleri siler.
+
+UPDATE demo set ID=43 WHERE Name="Twitter"; // id değerini 43 yapar (aynı numaraya sahip olan bir tane daha değer olsaydı hata verirdi.)
+
+
+3-) Filtreleme
+
+SELECT * FROM demo WHERE name="FUCK YOU";  // FİLTRELEME YAPAR
+
+SELECT * FROM demo where name LIKE "a%"; // a ile başlayan name satırlarını verir.
+
+SELECT * FROM demo where name LIKE "%a";  // a ile biten name stırlarını verir.
+
+
+
+
+
+
+		SQL ENJECTION
+		
+		
+mysql -u root -h 192.168.1.103 // belirtilen adrese bağlanır
+
+show databases;  // belirtilen yere bağlandıktan sonra o yerdeki databaseleri gösterir.
+
+use mysql; // mysql veri tabanını kullanacağımı söylüyorum.
+use owasp10; // owasp10 veri tabanını kullanacağımı söyüyorum.
+
+show tables; // tabel gösterir
+
+select * from <tableslerdan bir tanesini yaz>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT * FROM accounts WHERE username='jack' AND password='password='1'
+
+password:  1' or 1=1#'
+
+
+veya:
+
+username:  jack'#   // sonuç olarak her ikiside giriş yapmayı sağlar. Bu metodun ismi POST metodudur.
+
+
+
+
+
+
+
+
+

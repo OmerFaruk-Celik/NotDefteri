@@ -1,0 +1,13 @@
+			XSS
+			
+			
+			
+XSS açıkları bir web sitesine javascript kodu yüklememizi zağlar.
+
+
+1-) URL ile XSS (reflectiv XSS)
+
+2-) XSS Stored
+
+bu açık yardımıyla beef injection yapabilirsin yada kendi kodunu yükleyebilirisn.
+

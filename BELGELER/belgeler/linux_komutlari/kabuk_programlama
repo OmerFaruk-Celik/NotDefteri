@@ -1,0 +1,532 @@
+ Geri İleri İçindekiler
+6. Bash Kabuğu
+
+UNIX için geliştirilen en önemli ve en çok kullanılan kabukların başında tcsh, bash (Bourne Again Shell) ve ksh (Korn Shell) gelir. Bash, Bourne Shell'in biraz daha geliştirilmiş sürümüdür. Tcsh ise C-shell üzerine eklenen yeniliklerle genişletilmiştir. Unix altında, bash kabuğu diğer benzerlerine nazaran daha fazla özelliğe ve işleve sahiptir. Linux işletim sistemi için de derlenen bash ise hem tcsh, hem de ksh'dan özellikler taşır.
+
+Bir Slackware dağıtımında tüm bu kabuklar kullanıcının hizmetine sunulmuş olup bash kabuğu sistem ilk açıldığında tanımlıdır. Kullanıcı sisteme girdiği zaman bu kabuk aktif olur, bundan sonra kullanıcı herhangi bir kabuk altında çalışmalarına devam edebilir. Bunun için sadece ismini komut satırında yazması yeterlidir.
+6.1 Bash Özellikleri
+
+Bash'in kullanıcıya zaman kazandıran en önemli özelliklerinden birisi de dosya isimlerini tamamlamasıdır. Komut satırında tamamlanmamış bir komut veya dosya ismi yazdıktan sonra TAB tuşuna basılırsa satır tamamlanacaktır. Eğer komut satırındaki karakter kümesiyle başlayan birden fazla komut varsa bir sinyal sesi duyulacak ve sizden yeteri kadar karakteri yazmanızı bekleyecektir.
+
+$ ls
+postgres        mandel.doc      lilo-howto      
+$ vi post <TAB>
+$ vi postgres
+
+Komut satırındaki karakterler dosyayı veya komutu tanıtmaya yetmiyorsa, <TAB> tuşunun iki kez ard arda basılmasıyla ekrana mümkün olan tüm dosya isimleri getirilebilir.
+
+$ ta <TAB> <TAB>
+tac   tail  talk  tar
+$ talk
+
+Bash, komut satırında iken satırın kolayca değiştirilebilmesini sağlar. Böylece komut çalıştırılmadan önce birkaç tuş darbesiyle üzerinde değişiklik yapılabilir. Klavye üzerindeki alt ve üst yön tuşları, daha önce yazdığınız komutları görmenizi ve arasında seçim yapmanızı sağlar. Sağ ve sol yön tuşları ile seçtiğiniz komutun üzerinde değişiklikleri uygulabilirsiniz.
+6.2 Takma Adlar (alias)
+
+alias komutu ile bir komut veya komut kümesinin yerine bir isim tahsis edilebilir. 
+İşleyişi bir makroya benzeyen bu komut yardımıyla uzun komutlar, daha kısa komutlarla tanımlanabilir. 
+Bir alias komutu , anahtar kelimeyle başlar, ardından bir eşittir (=) işareti ve yerine kullanılacağı komut yazılır.
+Arada boşluk bırakılmaz.
+
+$ alias dir='ls -al'
+$ dir
+total 668
+-rw-r--r--   1 gorkem   users        1016 Dec  7 13:51 .profile
+-rw-r--r--   1 gorkem   users         277 Nov 26 13:02 .signature
+drwxr-xr-x   4 gorkem   users        1024 Dec  3 18:24 .tin/
+drwxr-xr-x   2 gorkem   users        1024 Nov 12 10:58 .wine/
+-rw-r--r--   1 gorkem   users         231 Nov 23 17:40 .xinitrc
+drwxr-xr-x   2 gorkem   users        1024 Oct  3 16:17 Mail/
+-rw-r--r--   1 gorkem   users        26721 Dec  3 14:55 NIS-HOWTO
+drwxr-xr-x   2 gorkem   users        1024 Nov 17 14:09 News/
+
+Daha karmaşık alias 'lar da tanımlanabilir:
+
+$ alias yedek="cd /var/log; tar -zcvf yedek.tgz cron debug lastlog; cd -"
+
+6.3 Özel Kabuk Tanımları
+
+Bazı özellikleriyle bash, benzeri kabuklar arasından kolayca sıyrılır. Bunlardan birisi de tanımlardır. Tanımlamalar set komutu yardımıyla yapılır, tüm tanımlar küçük harflerle yazılırlar, bu özellikleri yardımıyla değişkenlerden ayrılırlar.
+
+$ set -o tanim          # tanimi isletir
+$ set +o tanim          # tanimi kaldirir
+
+Aşağıda en çok kullanılan iki tanım yeralmaktadır:
+
+noclobber : Bu tanımın seçilir kılınmasından sonra bir komutun çıktısı bir dosyaya gönderildiğinde, dosyanın eski içeriği aynı kalır. Bu tanım sayesinde kazara bir dosyanın üzerine başka bilgilerin yazılması önlenebilir.
+
+$ ls -al dosya
+-rw-r--r--   1 gorkem   users        1409 Nov 29 13:58 dosya 
+$ set -o noclobber
+$ ls > dosya
+bash: dosya: Cannot clobber existing file
+
+ignoreeof : ignoreeof, kabuktan control-d tuş takımı ile çıkılmasını engeller. Yanlışlıkla basılan control-d ile sistemden anından çıkmak mümkün olduğu için kullanışlı bir tanımdır.
+
+$ set -o ignoreeof
+$ (control-d 'ye basin)
+Use "logout" to leave the shell.
+$ set +o ignoreeof
+$ (control-d 'ye basin, sistemden hemen cikar)
+$ ignoreeof=4 
+
+Yukarıdaki son örnekte 4 kere control-d tuşuna basılırsa kabuktan çıkılır.
+6.4 Özel Kabuk Değişkenleri
+
+Sisteme girdiğiniz zaman Linux size bir kabuk tahsis eder ve kabuk üzerinde değişkenler tanımlayabilmenize izin verir. Kabuk içinde bir kabuk programı (script) çalıştırılınca sistem tarafından bir alt kabuk daha yaratılır. Bu andan itibaren iki kabuk çalışır, birisi sisteme girdiğiniz anda tahsis edilen, diğeri de programın çalıştırılabilmesi için sistem tarafından çağırılan. Program bittiği anda alt kabuğun işlevi sona erer ve sistem tarafından öldürülür.
+
+Bir kabuk altında tanımlanan değişken o kabuğa özgüdür. Bir kabuk altında erişilebilen değişkene diğer bir kabuk erişemez. Fakat bash kabuğu altında bir çevre değişkeni yaratılırsa, sistem tarafından her alt kabuğa bu çevre değişkeni kopyalanır. Böylece bir değişken yaratılır, ama her alt kabuk tarafından kullanılabilir. bash kabuğunda yaratılan çevre değişkenlerinin normal değişkenlerden tek farkı, bu değişkenin diğer alt kabuklar tarafından tanınmasıdır.
+
+Bir çevre değişkeni belirtmek için export komutu kullanılır. Aşağıdaki örnekte dosyam isimli çevre değişkeni tanımlanıyor.
+
+$ export dosyam="internet.97.txt"
+$ echo $dosyam
+internet.97.txt
+
+Bu esnadan sonra tüm kabuklar altında bu değişken tanımlı olacaktır.
+
+env komutu yardımıyla sistemde öntanımı yapılan veya sonradan tanımlanan tüm değişkenler ekrana listelenir.
+
+$ env
+HOME=/home/gorkem
+SHELL=/bin/bash
+LS_OPTIONS=--8bit --color=tty -F -b -T 0
+PS1=\h:\w\$
+PS2=>
+LOGNAME=gorkem
+OSTYPE=Linux
+
+Sisteme girdiğiniz anda tanımlanan bazı komutlar ve açıklamaları aşağıda verilmiştir:
+
+HISTFILE : Tüm yazdığınız komutlar .bash_history adlı bir dosya içinde tutulur. Her kullanıcının kendi ev dizinleri içinde kullanıcıya özgü bu dosyadan vardır. $HISTFILE değişkeni ile dosyanın ismi değiştirilebilir.
+
+$ echo $HISTFILE
+/home/gorkem/.bash_history
+$ HISTFILE="komutlar"
+$ echo $HISTFILE
+komutlar
+
+PATH : PATH değişkeninde bir komut yazıldığı anda sistem tarafından aranacak olan patika listesi görüntülenir. Örnek olarak who komutu /usr/bin/ dizini altındadır ve bu bilgi PATH değişkeninde saklı tutulur. Kullanıcının yaptığı programları çalıştırabilmesi için PATH değişkeninde bulunduğu dizini de tanımlaması gerekir.
+
+PATH değişkeninde her dizin iki nokta üstüste işareti ile birbirinden ayrılır. Örnek olarak /usr/local/bin:/usr/bin dizisi sırasıyla /usr/local/bin ve /usr/bin patikalarına karşılık gelir.
+
+Kullanıcı PATH değişkenine yeni girdiler ekleyebilir. Aşağıdaki örnekte bunun nasıl uygulandığı görülüyor. Kullanıcı kısaca PATH değişkeninin sonuna kendisinin istediği patikayı veya patikaları ekler.
+
+$ echo $PATH                    # PATH degiskenini ekrana bas
+$ export PATH=$PATH:/usr/net    # buna /usr/net patikasini ekle
+
+SHELL : O an kullanılan kabuğun patika ismini verir. Kabuk programları genellikle /bin dizini altında tutulurlar. Her kabuğun patika ismi sistemdeki /etc/shells dosyasında bulunmalıdır.
+
+$ echo $SHELL
+/bin/bash
+
+HOME : Kullanıcının ev dizinini gösteren patikayı ekrana basar. Her kullanıcının ev dizini, sistemde hesap açılırken sistem görevlisi tarafından belirlenir. Linux Slackware dağıtımı altında bu dizin öntanımlı olarak /home 'dur. Aşağıdaki örnek kullanıcının ev dizinine ait patikayı ekrana basıyor.
+
+$ echo $HOME
+/home/gorkem
+
+LOGNAME : Sistemdeki kullanıcı hesabınının ismini tutar. Her kullanıcı için farklı bir değerde olur.
+
+$ echo $LOGNAME
+gorkem
+
+TERM : Kullanıcının halen üzerinde çalıştığı terminal tipini görüntüler. vi ve pico gibi editörler çalıştırıldıkları anda TERM çevresel değişkenine bakarlar. Bu sayede ekran ile ilgili bilgileri önceden düzenleyebilirler. Aşağıdaki komut önce halihazırdaki TERM değişkenini görüntülüyor, ardından değişkene başka bir değer atıyor.
+
+$ echo $TERM
+linux
+$ export TERM=vt100
+$ echo $TERM
+vt100
+
+PS1 ve PS2 : Ekranda komut satırının başına gelecek olan karakterleri belirlerler. Komut isteminin en başındaki yazı bu iki değişken yardımıyla değiştirilebilir. PS1, birinci satırın karakterlerini tutarken satıra sığmayan komutlar bir satır aşağı geçeceklerinden ikinci satırın karakterlerini de PS2 belirler. Aşağıdaki satır, bu iki değişkenin öntanımlı olan "$" işaretini bir kelimeyle değiştiriyorlar.
+
+$ export PS1='-> '
+-> export PS2='>'
+->
+
+Önceden tanımlanan kodlar yardımıyla komut satırı değiştirilebilir. Her kodun başında \ karakteri vardır. Bu kodların herbiri örneğin o anki saati, makinanın ismini veya bulunduğunuz dizini ekrana yazabilirler. Örneğin \h ve \w kodları sırasıyla çalışılan makinanın ismini ve çalışma dizinini gösterirler. Bu örnekte PS1 değişkeni bu iki kod yardımıyla değiştiriliyor.
+
+$ export PS1='\h:\w\$ '
+linux:~$                        # yeni komut satiri goruntusu
+linux:~$ cd /tmp
+linux:/tmp$                     # calisma dizinini de gosteriyor
+
+Aşağıda, sıkça kullanılan kodların bir listesi görülüyor.
+
+    \t , saat
+    \d , tarih
+    \s , kabuk ismi
+    \w , çalışma dizini
+    \u , kullanıcı ismi
+    \h , makina ismi
+
+6.5 Sisteme Giriş Dosyaları
+
+Sisteme girerken her giriş anında çalıştırılan birtakım dosyalar bulunur. Bash kabuğu ile doğrudan ilgili olan giriş dosyaları arasında
+
+/etc/profile
+~/.bash_profile
+~/.bash_login
+~/.profile
+~/.bashrc
+
+sayılabilir. Kullanıcı bu dosyaların kendine ait olanlarını dilediği gibi değiştirebilir. Sisteme girerken tanımlamak istediği değişkenleri tanımlar, çalıştıracaği programları yazar. /etc/profile dosyasını tüm kullanıcılar ortak kullanır. Her kullanıcı sisteme girdiğinde sistem tarafından bu dosya çalıştırılır. Bu dosyada kullanıcıların ihtiyacına yönelik özel sistem değişkenleri bulunur , ek olarak birtakım kontrol ve kayıt işlemleri yapılır.
+
+Örnek bir /etc/profile dosyası şekildeki gibidir.
+
+if [ "$TERM" = "" -o "$TERM" = "unknown" ]; then
+ TERM=linux
+fi
+#PS1='`hostname`:`pwd`# '
+if [ "$SHELL" = "/bin/pdksh" -o "$SHELL" = "/bin/ksh" ]; then
+ PS1="! $ "
+elif [ "$SHELL" = "/bin/zsh" ]; then
+ PS1="%m:%~%# "
+elif [ "$SHELL" = "/bin/ash" ]; then
+ PS1="$ "
+else
+ PS1='\h:\w\$ '
+fi
+PS2='> '
+ignoreeof=2
+export PATH DISPLAY LESS TERM PS1 PS2 ignoreeof
+umask 022
+# set up the color-ls environment variables:
+if [ "$SHELL" = "/bin/zsh" ]; then
+  eval `dircolors -z`
+elif [ "$SHELL" = "/bin/ash" ]; then
+  eval `dircolors -s`
+else
+  eval `dircolors -b`
+fi
+
+.bashrc dosyası, her bash kabuğu veya alt kabuk çalıştırıldığı anda okunur. Her kabuk programı çalıştırılınca bir alt kabuğa ihtiyaç olduğundan bu durumda .bashrc dosyası da okunacak ve içerdiği değişkenler proram çalışmadan önce tanımlanacaktır.
+
+Sistemden çıkarken varsa çalıştırılan dosyanın ismi .bash_logout'tur. Bu dosya ile kullanıcı sistemi terkederken fazladan işlemler yapabilir. Aşağıdaki örnekteki .bash_logout dosyasında kullanıcı sistemden her çıktığında ekran temizlenecek ve en üste 'Hoscakal' yazacaktır.
+
+clear
+echo "Hoscakal!"
+
+6.6 Kabuk Programlamaya Giriş
+
+Her kabuğun kendine özgü programlama dili yapısı vardır. Bash kabuğu ise güçlü programlama özellikleriyle karmaşık programların rahatça yazılmasına izin verir. Mantıksal operatörler, döngüler, değişkenler ve modern programlama dillerinde bulunan pek çok özellik bash kabuğunda da vardır ve işleyiş tarzları da hemen hemen aynıdır.
+
+Genellikle, bir programı oluşturacak olan komutlar bir dosyaya yazılırlar ve ardından bu dosya çalıştırılır. Herhangi bir editör yardımıyla yazılan program, daha sonra kabuk altında çalıştırılır. Bir kabuk programı diğerlerini çalıştırabilir. Bu düzende kabuk programlarını daha karmaşık komutların biraraya gelmiş ve büyümüş haline benzetebiliriz.
+Kabuk Programları
+
+Kabuk programları, bir veya birden fazla linux komutunu tutan dosyalardır. Bu dosya yaratıldıktan sonra doğrudan dosyanın ismi girilerek veya dosya isminden önce '.' karakteri getirerek çalıştırılabilir. Bir kabuk programı, çalıştırma bitini 1 yapmak suretiyle "çalıştırılabilir" hale getirilir. chmod komutu yardımıyla bir programı çalıştırılabilir yapmak için ,
+
+$ chmod +x komut-ismi
+
+yazılabilir. Bundan sonra programın ismi yazılıp enter tuşuna basıldığı zaman bir program Linux komutuymuş gibi çalışacaktır.
+
+$ cat calistir
+echo -n "Tarih : "
+date
+$ chmod +x calistir
+$ calistir
+Tarih : Sun Dec  8 07:11:51 EET 1996
+
+Yukarıdaki örnekte "calistir" isimli iki satırlık bir kabuk programının önce içeriği ekrana yazıldı, ardından çalıştırılacak duruma getirildi ve çalıştırıldı.
+
+Kabuk programları yazarken dosyanın işlevini ve her satırdaki komutun veya komut kümesinin ne amaçla kullanıldığını gösteren açıklama satırları kullanmak işe yarar. Bir açıklama eklemek için satır başına (veya boş satıra) # işareti eklenir ve ardından istenilen cümle girilir. # işaretinden sonraki tüm satır kabuk tarafından gözardı edilir. Aşağıdaki programda komut öncesinde yeralan açıklama satırı, komut hakkında bilgi veriyor.
+
+# gunzip komutu dosya acmak icin kullanilir.
+gunzip sistem.gz
+
+Yorum satırı, komutun sonuna da eklenebilir.
+
+ps -aux         # sistem surecleri hakkinda ayrintili bilgi..
+
+Bir kabuk altında çalışırken başka bir kabuk için yazılmış bir programı çalıştırmak mümkündür. Örneğin tcsh altındasınız ve daha evvel bash kullanarak yazdığınız bir programı çalıştırmak istiyorsunuz. Önce bash yazarak kabuk değiştirmeli, ardından programı çalıştırmalı, ve tekrar tcsh'a dönmelisiniz. Tüm bunları otomatik olarak yaptırabilirsiniz. Programın en başına #! karakterini, ardından programın çalışacağı kabuğun patikasını yazın. Örneğin #!/bin/bash komutunu programın en üstüne eklerseniz bu program bash kabuğu altında çalışacaktır.
+Değişkenlerin Kullanımı
+
+Bir değişkene değer atandığı anda sistem tarafından tanınır. Değişkenler alfabetik veya nümerik karakterlerden oluşabilirler fakat bir değişken sayısal bir değer ile başlayamaz. Bunların dışında değişken isminin içinde "_" karakteri de bulunabilir. Bir değişkene değer ataması "=" işareti yardımıyla yapılır.
+
+$ mesaj="aksama yemege geliyorum"
+
+İçeriği olan bir değişkene başına "$" işareti konularak ulaşılır. Aşağıda, echo komutu yardımıyla bir değişkenin içeriği ekrana basılıyor.
+
+$ echo $mesaj
+aksama yemege geliyorum
+$ echo yarin $mesaj
+yarin aksama yemege geliyorum
+
+Aynı mesajı değişken kullanmadan da görüntüleyebiliriz.
+
+$ echo "Aksama yemege geliyorum"
+Aksama yemege geliyorum
+
+Giriş/Çıkış İşlemleri
+
+Bir kabuk programı çalışırken kullanıcıdan klavye yardımıyla bilgi girmesi sağlanabilir. Bu tür işlemler için tanımlanan read komutu klavyeyi okur ve aldığı bilgiyi bir değişkene atar. Aşağıdaki komutları içeren program yardımıyla klavyeden okunan değer ekrana yazılıyor. echo komutundan sonra birden fazla değişken grubu veya hem değişken, hem de dizi kullanılabilir.
+
+echo Bir sayi giriniz..
+read sayi
+echo Girilen sayi : $sayi
+
+Bazı durumlarda girilen değer özel karakterleri içerebilir. Bu durumda istenmeyen bazı sonuçların doğması kaçınılmaz olur. Aşağıdaki örneği bir dosya içine yazın ve dosyayı çalıştırdıktan sonra "*" tuşuna basın.
+
+echo Bir karakter giriniz
+read a
+echo Girdiginiz karakter : $a
+
+Aritmetik İşlemler
+
+bash kabuğunda matematiksel işlemlere büyük sınırlamalar getirilmiştir. Tamsayı değişkeni dışında matematiksel değişken kullanmak için bu işlemler için geliştirilmiş ve kolaylıklar sağlayan awk veya bc kullanabilirsiniz.
+
+Aritmetik işlemler için eval komutunu veya bash kabuğu altında yerleşik (builtin) komut olan let komutunu kullanabilirsiniz. Aşağıda let komutunun kullanımı görülüyor.
+
+let "degisken=aritmetik islem"
+
+Bu örnekte iki sayı çarpılıp çıkan sonuç başka bir değişkene yazılıyor.
+
+$ let "carpim=2*7"
+$ echo $carpim
+
+Aritmetik değişken tanımlamanın diğer bir yolu da typeset komutu kullanmaktır.
+
+$ typeset -i sonuc      (sonuc degiskeni bir dogal sayi icerecek)
+$ a=100 ; b=56          (iki komutu ayirmak icin ; kullanilabilir)
+$ sonuc=a*b
+$ echo $sonuc   
+5600
+
+if-else Kalıbı ve Kontrol İşlemleri
+
+Hemen her programlama dilinde olan if kalıbı bir Linux komutunun çalışmasını kontrol (test) eder. if komutu yerleşik bir komuttur ve her if, bir fi komutuyla bitmelidir. if komutunun ardından gelen Linux komutu çalıştırılır ve komutun çıkış durumu (exit status) gözönüne alınarak ardından gelen then deyimiyle birlikte devamı işletilir. Genellikle komutun iki türlü çıkış durumu olacağından else komutunun ardından gelen komut zinciri, diğer çıkış durumunda çalıştırılır. Aşağıda if-else-then komutunun örnek sözdizimi görülüyor.
+
+if linux komutu
+    then        
+        komut1
+        komut2 
+        ...
+    else
+        komut1 
+        komut2 
+        ...
+fi
+
+if komutu genellikle kendine test komutu ile birlikte kullanım bulur. Bu komut yardımıyla mantıksal işlemler yapılabilir, sayılar ve hatta diziler karşılaştırılabilir. Anahtar sözcük olan test'ten sonra opsiyonlar ve/veya karşılaştırılacak olan değerler yazılır. Her opsiyon bir mantıksal işleme karşılık gelir. Örneğin -lt opsiyonu ilk girilen aritmetik değişkenin ikinci değerden küçük olup olmadığını denetler. Benzer şekilde = opsiyonu da iki karakter kümesinin eşitliğini kontrol eder. Aşağıda test komutunun örnek kullanımı yeralıyor.
+
+$ test 5 -eq 3
+$ a="linux"
+$ test $a="linux"
+
+komutun işletilmesinin ardından kabuğa bir değer dönderilir. Bu değer komut başarılı olarak işletilmişse 0, değilse 1'dir. Son çalıştırılan tüm Linux komutlarının çıkış değeri $? değişkeninde tutulur. test komutunun çıkış değeri de bu yolla öğrenilebilir.
+
+$ sayi=4
+$ test $sayi -eq 4
+$ echo $?
+0
+$ test $sayi -lt 2
+$ echo $?
+1
+
+test komutu yerine parantezler de kullanılabilir. Yukarıdaki iki örnek, parantez kullanılarak şu şekilde yazılabilir:
+
+$ [ $sayi -eq 4 ] 
+$ [ $sayi -lt 12 ]
+
+Dikkat edilmesi gereken bir nokta, köşeli parantez kullanırken araya boşlukların eklenmesidir. Parantezler başlı başına bir komut olarak görüldüklerinden sağında ve solunda en az bir boşluk bırakılmalıdır. test komutunda sıkça kullanılan diğer seçenekler şunlardır :
+
+
+Aritmetik karşılaştırmalar
+-gt büyük
+-lt küçük
+-ge büyük eşit
+-le küçük eşit
+-eq eşit
+-ne eşit değil
+Dizisel karşılaştırma
+-z boş dizi
+-n tanımlı dizi
+= eşit diziler
+!= farklı diziler
+Dosya karşılaştırması
+-f dosya var
+-s dosya boş değil
+-r dosya okunabilir
+-w dosyaya yazılabilir
+-x çalıştırılabilir dosya
+-h sembolik bağlantı
+-c karakter aygıt
+-b blok aygıt
+Mantıksal karşılaştırmalar
+-a VE
+-o VEYA
+! DEĞİL
+
+if komutunun test ile birlikte kullanılabildiğini daha önce belirtmiştik. Aşağıda bununla ilgili küçük bir örnek yeralıyor.
+
+#!/bin/bash
+echo "0 ile 20 arasinda bir sayi secin"
+read sec
+if [ $sec -lt 10 ]
+   then 
+        echo "Secilen sayi tek basamakli"
+   else
+        echo "Secilen sayi cift basamakli"
+fi
+
+Her if komutu bir fi ile son bulmalıdır.
+case Kalıbı
+
+Birkaç alternatif arasından seçim yapmak için kullanılan bir komut olan case, bir eşleştirme gördüğü anda belirli bir komut kümesini işleme sokar. case yapısı case komutu ile başlar, eşleştirilecek olan anahtar sözcük yazılır ve seçenekler alt alta, her seçeneğe ait olan komutlarla birlikte belirtilir. Tüm yapı esac komutu ile son bulur.
+
+case anahtar-sozcuk in
+        secenek1) 
+                komutlar
+                ;;
+        secenek2)
+                komutlar
+                ;;
+        *)      
+                komutlar
+                ;;
+esac
+
+Seçenekler arasında özel karakterler (*, [] , ? gibi) kullanılabilir. Hiçbir eşleme yapılmadığı zaman *) seçeneği değerlendirilecek ve buna bağlı olan komutlar işletilecektir. * kullanımı isteğe bağlıdır. Aşağıda case komutuna ilişkin kısa bir örnek veriliyor.
+
+#!/bin/bash
+
+clear
+echo    "1. ekrani temizle"
+echo    "2. sistemdekileri goruntule"
+echo    "3. dizindeki dosyalari goster"
+
+echo -n "Secenegi giriniz : "
+read secenek
+
+case $secenek in
+        1)
+          clear
+          ;;
+        2)
+          w 
+          ;;
+        3)
+          ls -al
+          ;;
+        *) 
+          echo Hatali secenek
+esac
+
+6.7 Döngüler
+
+Diğer hemen tüm programlama dillerinin en büyük gücü olan döngü işlemlerine kabuk altında da izin veriliyor. Burada programcı tarafından en çok kullanılan 2 döngü tipi anlatılacaktır: while ve for. while komutu her döngüde bir denetleme mekanizmasını harekete geçirirken for döngüsü daha değişik bir mantıkla çalışır.
+while-do Döngüsü
+
+Döngü bloğu while anahtar kelimesiyle başlar, ardından gelen koşul sağlandığı sürece döngü işletilir. Önce koşulun sağlanıp sağlanmadığına bakılır. Döngüden çıkabilmek için mutlaka döngü içindeki koşul ifadesinin değerini yanlış yapacak bir durum oluşmalıdır, aksi halde sonsuz döngü oluşur.
+
+while kosul ifadesi
+   do
+        komutlar
+   done 
+
+if komutuyla birlikte kullanılan test komutu, while döngüsünde koşul ifadesi olarak da yer alabilir. Aşağıda 1'den 100'e kadar sayan ve ekrana basan bir döngü görülüyor.
+
+#!/bin/bash
+deger=0
+while [ $deger -lt 100 ]
+   do
+        deger=$((deger+1))
+        echo $deger
+   done
+
+Yukarıda kullanılan (( ve )) karakterleri arasına matematiksel bir işlem getirilebilir. Bu özellik bash kabuğuna özgüdür.
+for-do döngüsü
+
+Bir liste dahilindeki tüm değerlere sırayla erişimi sağlar. 
+for komutundan sonra yeralan liste sırayla kullanılır ve herbirisi için döngü çalıştırılır. 
+Listenin sonuna gelindiğinde ise döngüden çıkılır.
+
+for degisken1 in deger1 deger2 ... degerX
+   do
+        komutlar
+   done
+
+Aşağıdaki örnek bu döngüyü kullanarak ekrana bir dizi kelime yazıyor.
+ Döngü boyunca akasya, elma ve visne kelimeleri "agac" değişkenine kopyalanıyor ve
+ her döngüde bu değişkenin içerdiği bilgiler ekrana yazılıyor.
+
+for agac in akasya elma visne
+   do
+        echo $agac
+   done
+
+for-do döngüsü, dosya isimleri üzerinde yapılan işlemlerde de büyük kolaylıklar sağlar.
+Bunun için özel karakterlerden yararlanmak da olasıdır. Örnek olarak * karakteri o anki çalışma dizini içindeki tüm dosyaları seçer.
+
+for a in *.pl ; do
+        file $a
+        done
+
+6.8 Örnek Kabuk Programı
+
+Sistem görevlisinin en çok kullandığım komutlardan birisi ps -aux | grep -i xxx komutudur.
+ Bu satır yardımıyla çalışan xxx isimli program hakkında daha detaylı bilgi elde edilebilir.
+ ps komutu detaylı bir süreç listesini ekrana verirken çıktı doğrudan grep komutuna yönlendirilir ve
+ sadece istediğimiz bilgi monitörde görünür. Fakat her zaman aynı uzun satırı tekrar tekrar yazmaktansa 
+bu satırı bir dosyaya gönderip, dosya adını komut satırından çalıştırmak zamandan tasarruf sağlayacaktır.
+ Biz de öyle yapalım ve aşağıdaki satırları "p" isimli dosyaya yazalım.
+
+#!/bin/bash
+if [ $# = 1 ]
+  then
+  ps -ax | grep -i $1
+else
+  ps -ax
+fi
+
+Ardından dosyayı PATH değişkeninin işaret ettiği dizinlerden /usr/local/bin altına yerleştirip çalıştırılabilir olması için chmod +x /usr/local/bin/p komutunu uygulayın. Kendi yazdığınız dosyaları /usr/local veya ~/bin dizini altına kopyalamanız bunların derli toplu olarak tek bir dizinde her an erişilebilir şekilde durmaları açısından önem taşır.
+
+grep komutu, bir dosyadaki veya standart girişteki satırlar içinden belirli bir kelime, harf veya harf grubunu bulmaya yarar. Aşağıdaki birkaç örnek grep'i özetlemeye yeter.
+
+$ grep while sort.c 
+sort.c dosyasinda while kelimesini iceren tum satirlari ekrana yazar.
+$ w | grep demir 
+sistemde demir isimli kullanici var mi?
+$ ls -al | grep "^d" 
+
+Son örnek, ls -al çıktısında satır başında ``d'' varsa ekrana getirir. Sadece dizin isimlerinin başında ``d'' harfi bulunur. Şapka isareti, satır başlangıcını gösterir.
+
+Dosyaya biraz daha yakından bakalım. İlk satır, bu dosyanın /bin/bash programı tarafından çalıştırılacağını gösterir. İkinci satır yardımıyla komut satırı üzerinde kaç tane opsiyon olduğu bulunur. $# çevresel değişkeni her biri TAB veya boşluk karakteri ile ayrılmış komut satırı opsiyonları sayısını verir. Aşağıdaki komutta toplam 3 opsiyon vardır.
+
+$ ls --8bit  -F -b 
+
+$# komutuna benzer şekilde $1, $2, $3 ... değişkenleri de opsiyonları verir. Yukarıdaki komutta $1, $2, $2 değişkenleri sırasıyla
+
+--8bit
+-F
+-b
+
+değerlerini alırlar. Komut satırından çalıştırılan komut ise $0 değişkenine atılır. Yukarıdaki örnekte $0 değişkeni ls değerini tutacaktır.
+
+p dosyasına tek opsiyon yollayacağız. Bu opsiyon da hakkında detaylı bilgi alacağımız süreç olacaktır. Dosya içinde $1 değişkenini ps komutuna yerleştirmek için :
+
+ps -ax | grep -i $1;
+
+yazılır. Bundan sonra komut satırında, örneğin:
+
+$ p bash
+
+girilirse $1 değişkeni bash e eşit olacak ve bu da ps -ax | grep -i bash eşdeğer komutunu çalıştıracaktır. 
+Komut olarak sadece p girilirse $# değişkeni 0'a eşit olacağından dosyada yeralan ve hiç bir filtreleme 
+yapmayan ps -ax komutu çalışır.
+
+Linux'u yüklerken HOWTO dökümanlarını da eklemeyi ihmal etmediniz, değil mi ? 
+Aşağıdaki kısa program, bu dosyalara en hızlı şekilde ulaşmanıza yarıyor. 
+Tüm HOWTO'lar kurulum aşamasında /usr/doc/faq/howto dizini altına kopyalanır ve sıkıştırılır.
+
+Bu programı herhangi bir isimle kaydedin. Ardından komut satırından programın ismi ile birlikte 
+ekranda görüntülemek istediğiniz HOWTO dökümanının ismini yazın (örneğin PPP). 
+Bir parametre girilmez ise /usr/doc/faq/howto dizinindeki dosyalar ekrana gelir.
+
+#!/bin/bash
+if [ "$1" = "" ]; then
+    ls /usr/doc/faq/howto | less
+else
+    gunzip -c /usr/doc/faq/howto/$1-HOWTO.gz | less
+fi
+
+Geri İleri İçindekiler 

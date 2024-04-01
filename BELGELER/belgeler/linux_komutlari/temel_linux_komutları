@@ -1,0 +1,148 @@
+touch
+
+Genellikle dosya oluşturmak için kullanılır.
+
+Ancak komutun ana işlevi mevcut dosyaların tarih bilgisini değiştirmektir.
+
+Parametre olarak verilen dosya mevcut değilse oluşturulur.
+
+touch <dosya>
+
+mv
+
+Dosya taşımak veya yeniden adlandırmak için kullanılır.
+
+mv <kaynak> <hedef>
+
+cp
+
+Dosya kopyalamak için kullanılır.
+
+cp <kaynak> <hedef>
+
+rm
+
+Dosya silmek için kullanılır.
+
+rm <kaynak> <hedef>
+
+Dosyayı silmeye zorlamak için f parametresi kullanılır.
+cat
+
+Dosya içeriğini okumak için kullanılır.
+
+cat <dosya>
+
+Ayrıca dosya oluşturmak içinde kullanılabilir.
+
+cat > <dosya>
+
+Komut sonlandırılana kadar ekrana yazılan değerler dosyaya yazılır.
+
+Dosya içeriğini satır numarasıyla yazdırmak için n parametresi kullanılır.
+
+cat -n <dosya>
+
+head
+
+Dosya içeriğini dosya başından itibaren okumak için kullanılır.
+
+head <dosya>
+
+Varsayılan olarak ilk 10 satırı okur.
+
+Satır sayısını belirtmek için n parametresi kullanılır.
+
+head -n3 <dosya>
+
+Karakter sayısını belirtmek için c parametresi kullanılır.
+
+head -c3 <dosya>
+
+tail
+
+Dosya içeriğini dosya sonundan itibaren okumak için kullanılır.
+
+tail <dosya>
+
+Varsayılan olarak ilk 10 satırı okur.
+
+Satır sayısını belirtmek için n parametresi kullanılır.
+
+tail -n3 <dosya>
+
+Karakter sayısını belirtmek için c parametresi kullanılır.
+
+tail -c3 <dosya>
+
+Dosya değişikliklerini takip etmek için f parametresi kullanılır.
+
+tail -f <dosya>
+
+more
+
+Dosya içeriğini parça parça okumak için kullanılır.
+
+more <dosya>
+
+Okunacak parça miktarını belirmek için parametre olarak miktar belirtilebilir.
+
+more <dosya>
+
+Komuttan çıkış için q klavye kısayolu kullanılır.
+less
+
+Dosya içeriğini more komutundan daha fazla seçenekle parça parça okumak için kullanılır.
+
+less <dosya>
+
+Komutun geniş bir klavye kısayol tuş kullanımı vardır.
+
+Komuttan çıkış için q klavye kısayolu kullanılır.
+sort
+
+Dosya içeriğini sıralı okumak için kullanılır.
+
+sort <dosya>
+
+Dosya içeriğini rastgele sıralanmış olarak okumak için R parametresi kullanılır.
+
+sort -R <dosya>
+
+Dosya içeriğini sayısal sıralanmış olarak okumak için n parametresi kullanılır.
+
+sort -n <dosya>
+
+nl
+
+Dosya içeriğini satır numarası ekleyerek okuma yapar.
+
+nl <dosya>
+
+pr
+
+Dosya içeriğini sayfalayarak okumak için kullanılır..
+
+pr <dosya>
+
+tee
+
+Komut yeni bir oluşturmak ve çıktı yönlendirme için kullanılır.
+
+tee <dosya>
+
+Yazılan değerleri dosyanın üzerine eklemek için a parametresi kullanılır.
+
+tee -a <dosya>
+
+file
+
+Dosya ile ilgili bilgi almak için kullanılır.
+
+file <dosya>
+
+stat
+
+Dosya ile ilgili detaylı bilgi almak için kullanılır.
+
+stat <dosya>

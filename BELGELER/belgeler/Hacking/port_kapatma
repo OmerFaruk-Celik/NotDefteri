@@ -1,0 +1,3 @@
+sudo ss --kill state listening src :8080  //8080 portunu kapatır.
+
+sudo lsof -i :80  //80 portunu kullanan servisler

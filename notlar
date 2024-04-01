@@ -1,0 +1,159 @@
+#!/usr/bin/python3
+import pandas as pd
+import os
+
+
+#belgeler isimli klasörüne gidiyor
+path="/usr/bin"+"/BELGELER/belgeler"
+os.chdir(path)
+print(os.listdir())
+
+print(""" \033[1;36m
+┌══════════════════════════════════════════════════════════════┐
+█                                                              █
+█                     KİŞİSEL NOTLARIM                         █
+█                                                              █
+└══════════════════════════════════════════════════════════════┘     \033[1;m""")
+
+
+
+while(True):
+	
+	
+	def temizle():
+		os.system("clear")
+		
+	
+	def dizindeki_belgeler():
+		verilerim=pd.DataFrame(os.listdir())
+		
+		try:
+			
+			is_file=os.path.isdir(os.getcwd()+"/"+verilerim.iloc[0][0])
+			if(is_file):
+				verilerim.columns=["KLASORLERIM"]
+				
+			else:
+				verilerim.columns=["BELGELERİM"]
+				
+			return verilerim
+		
+		except IndexError:
+			return "GİRDİĞİNİZ KLASÖR BOŞ BİR KLASÖRDÜR."	
+				
+	def file_creater():
+		name=input("Lütfen oluşturmak istediğiniz klasörün ismini giriniz : ")
+		os.mkdir(str(name))
+		
+	def doc_creater():
+		baslik=input("""\033[1;34m\n[++] Belgeniz İçin Bir Başlık Seçin Lütfen. \033[1;m""")
+		print("Şimdi İçeriğini Yazabilirsiniz Efendim..")
+		os.system("cat > "+baslik)
+
+		
+			
+	#temizle()
+	print("\n"*5)
+	print(dizindeki_belgeler())
+	print("\n"*5)
+	
+
+	print("""\033[1;34m\n[++] Geri Gitmek İçin G'ye Basınız. Daha Fazlası İçin X'e Basınız. \033[1;m""")
+
+	sec=input("\033[1;34m\n[+]Girmek istediğiniz dosya ya da belge numarasını giriniz.  \033[1;m")
+	
+	
+	
+	
+	
+	
+	if (sec=="x" or sec=="X"):
+		print("1-) Bir Klasör Yaratın, 2-) Bir Belge Yaratun 3-) Silme İşlemi, Q-) ÇIKMAK İÇİN Q'YA BASINIZ!!")
+		secenek=input("isleminiz : ")
+		
+		if(secenek=="1"):
+			file_creater()
+
+			
+		elif(secenek=="2"):
+			doc_creater()
+			
+		
+		elif(secenek=="q" or secenek=="Q"):
+			print("Görüşürüz...")
+			
+			break
+
+		elif(secenek=="3"):
+			temizle()
+			print(dizindeki_belgeler())
+			sec3=input("\033[1;34m\n[+]Silmek istediğiniz dosya ya da belge numarasını giriniz.  \033[1;m")
+			p3=dizindeki_belgeler()
+			veri_adi3=p3.iloc[int(sec3)][0]
+			path3=os.getcwd()+"/"+veri_adi3
+			silme_kodu="rm -rf "+"/"+path3
+			os.system(silme_kodu)
+			
+			print("{} Nolu, {} isimli Dosya Silindi. ".format(sec3,veri_adi3))
+			
+			
+
+
+
+
+	elif(sec=="q" or sec=="Q"):
+		print("Görüşürüz...")
+		break
+		
+	elif(sec=="g" or sec=="G"):
+	
+		temizle()	
+		print("\033[1;34m\n[+]Bir Dizin Geri Gittiniz.  \033[1;m")
+		os.chdir(os.pardir)
+			
+		
+	else:
+	
+		try:
+
+			p=dizindeki_belgeler()
+			veri_adi=p.iloc[int(sec)][0]
+				
+			path2=os.getcwd()+"/"+veri_adi
+			klasor=os.path.isdir(path2) # klasör olup olmadığını soruyorum.
+				
+			if(klasor): #eğer klasörse path2'ye gir
+				temizle()
+				os.chdir(path2+"/")  
+				
+			else: # klasör değilde bir belge ise o zaman onu okumasını iste:
+			
+				temizle()
+				print("{} İsimli Belgeniz Hazır Efendim!	".format(veri_adi))
+				print("\n"*10)
+				okuma=open(path2)
+				for line in okuma:
+					print(line.strip())
+					
+					
+		except ValueError:
+			temizle()
+			print("OOPSS!! ALAKASIZ BİR TUŞA BASTINIZ... ")
+		
+	
+	
+	
+	
+
+	
+
+
+			
+
+	
+
+		
+
+
+
+

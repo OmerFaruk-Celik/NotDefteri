@@ -1,0 +1,128 @@
+Linux üzerinde Python scripti oluşturma ve daemon ( servis ) olarak atama
+Bayram Demirci
+Linux-Commands
+
+Bayram Demirci
+·
+
+Follow
+Published in
+
+Linux-Commands
+·
+3 min read
+·
+May 1, 2020
+
+Python programlama dili ile yazmış olduğunuz scriptleri Linux’a bir daemon yani Windows’daki bir servis gibi nasıl eklenir bunu görüyor olacağız.
+
+Linux üzerinde Python scriptlerinizin çalışması için Python yorumlayıcısının Linux üzerinde yüklü olması gerekmektedir. Eğer yüklü değil ise ;
+
+Öncelikle Linux üzerinde terminal ekranını açıp
+
+    sudo su
+
+yazıp enter’a bastıktan sonra Linux yönetici şifremizi girip yönetici moduna geçiyoruz.
+
+Komut satırına
+
+    apt-get install python3.6
+
+yazıp enter tuşuna basıyoruz.
+
+Eğer ki kurulumda bir sorunla karşılaşmadıysanız
+
+    python
+
+yazıp komutu çalıştırdığınızda aşağıdaki gibi bir ekran alıyor olmanız gerekmekte.
+
+artık python dosyamızı hazırlayabiliriz. Sizin hali hazırda dosyanız var ise bu bölümü geçebilirsiniz.
+
+Python dosyamı masaüstünde oluşturmak istediğim için terminal ekranında
+
+    cd ~/Desktop
+
+komutunu çalıştırıp, ardından
+
+    touch testService.py
+
+komutu ile masaüstünde testService.py adında bir Python dosyası oluşturuyoruz.
+
+python dosyamızın içinde 1 den başlayıp 1.000.000.000 a kadar giden bir döngü oluşturup, birer birer sayıyı arttıracağız.
+
+Uzunca bir döngü oluşturmamızın amacı servisin çalışıp çalışmadığını kontrol etmek istediğimizde yeterli kadar süremiz olabilsin
+
+    nano testService.py
+
+yazıp, nano editörünü açıyoruz.
+
+Ctrl+x tuşuna basıp, ardından Y tuşuna basıp tekrar enter tuşuna basıyoruz. ve dosyamızı kaydetmiş oluyoruz.
+
+Şimdi sıra Linux tarafında servisimizi oluşturma
+
+    nano /lib/systemd/system/testservice.service
+
+komutunu yazıp nano editörümüzü açıyoruz ve içine aşağıdaki kodları giriyoruz. Kalın yazılan script yolunu kendi py dosyanızın yolu olarak değiştirmelisiniz. (Bunun için terminalde py scriptinizin olduğu klasör yoluna geldikten sonra pwd komutunu çalıştırıp buradan yolu kopyalabilirsiniz.)
+
+[Unit]
+Description=Test Service
+After=multi-user.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/bd/Desktop/testService.py
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target
+
+CTRL +x ardından Y tuşuna basıp entera basıyoruz.
+
+Oluşturduğumuz servisi sisteme yüklemek için
+
+    /lib/systemd/system/ dizinindeyken
+
+    systemctl daemon-reload
+
+komutunu çalıştırıyoruz. Artık servisimiz yüklendi. Geriye aktifleştirmek ve çalıştırmak kalıyor. Onu da aşağıdaki kodlarla yapıyoruz.
+
+    sudo systemctl enable testservice.service
+    sudo systemctl start testservice.service
+
+Servisin durumunu kontrol etmek için ise
+
+    sudo systemctl status testservice.service
+
+servisi durdurmak, başlatmak ve durdurup tekrar otomatik başlatmak için ise
+
+sudo systemctl stop dummy.service          
+sudo systemctl start dummy.service        
+sudo systemctl restart dummy.service
+
+komutlarını kullanıyoruz.
+
+Servisi tamamen silmek için önce servisi durdurup,
+
+sudo systemctl stop dummy.service
+
+ardından
+
+sudo rm dummy.service komutu ile servisimizi silebiliyoruz.
+
+Umarım faydalı olmuştur…
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+

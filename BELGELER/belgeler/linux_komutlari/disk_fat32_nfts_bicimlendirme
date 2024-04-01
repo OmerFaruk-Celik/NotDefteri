@@ -1,0 +1,28 @@
+Linux için External USB Flash Disk Biçimlendirme
+27 Nisan 2015 Linux 0 yorum
+
+Disk Kontrolü
+
+sudo fdisk -l
+
+Disk biçimlendirme;
+Ext2,Ext3 ve Ext4 için;
+
+sudo umount /dev/sd?
+
+sudo mkfs.ext3 /dev/sd?1
+
+Fat32 dosya sistemi için,
+
+sudo mkfs.vfat -F 32 /dev/sd?1
+
+Etiket (Label) Değiştirme,
+
+Ext2,Ext3 ve Ext4 için,
+
+sudo e2label /dev/sd?1 USB_STICK
+
+Fat ve Fat32 dosya sistemi için dosfstools paketine ihtiyaç vardır.
+
+sudo dosfslabel /dev/sd?1 USB_STICK
+

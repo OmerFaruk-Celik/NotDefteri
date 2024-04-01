@@ -1,0 +1,30 @@
+pip install SpeechRecognition
+pip install cffi
+pip install pandas
+sudo apt install python3-pyaudio
+sudo apt install portaudio19-dev python3-pyaudio
+pip install pyaudio
+pip install soundfile
+pip install pysndfx
+pip install gtts 
+pip install playsound
+
+
+sudo apt install libgirepository1.0-dev // bu paket olmadan pygobject inmiyor. Aşağıdakiler de lazım
+pip install PyGObject
+
+sudo apt install libpython3.9-dev
+sudo apt-get install sox && ffmpeg && libcairo2 && libcairo2-dev
+sudo apt-get install texlive-full
+pip3 install manimlib  # or pip install manimlib
+
+sudo apt-get install sox ffmpeg libcairo2 libcairo2-dev
+
+sudo apt install libgirepository1.0-dev
+
+Then:
+
+pip3 install manimce  # or pip install manimce
+
+And everything works.
+

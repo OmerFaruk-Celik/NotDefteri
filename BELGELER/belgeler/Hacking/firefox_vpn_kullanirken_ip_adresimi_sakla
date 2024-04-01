@@ -1,0 +1,3 @@
+media.peerconnection.enabled false #firefox tarayicisinda bunu arama çubuğu kısmaına yaz.
+				   # sonucu false yap.
+				   #böylece vpn kullanirken gerçek ip adresin başka yerlerde kullanilmaz.

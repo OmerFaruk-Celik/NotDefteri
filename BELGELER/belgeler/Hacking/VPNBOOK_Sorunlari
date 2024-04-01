@@ -1,0 +1,17 @@
+VPNBOOK Açılma Sorunu:
+
+vpnbook açılmazsa ve ssl hatası verirse ozaman indirdiğimiz vpnbook içine
+nano yada herhangi bir editör ile girip o vpnbook içeriğine
+şunu yazmalıyız: tls-cipher "DEFAULT:@SECLEVEL=0"
+NOT: bunu yadıktan sonra sorun ssl ilgili ise çözülür. 
+
+
+DNS Değiştirme:
+
+nano /etc/resolvf.conf
+
+oradaki ip adresleri yerine google veye istediğiniz bir sunucunun dns adreslerini yazabilirsiniz.
+
+NOT: Eğer dosya unwritable ise o zaman root olarak erişime açmak için
+şu kodu terminale girninz: chattr -a /etc/resolv.conf
+kodu girdikten sonra durum değişikliğini kontrol etmek için şu

@@ -1,0 +1,165 @@
+                     NMAP
+                     
+zenmap: namp'in grafik arayüzüdür.
+
+port: bağlantı noktasıdır. 
+
+PORT ÇEŞİTLERİ;
+21 FTP
+22 SSH
+23 TELNET
+25 SMTP
+53 DNS
+80 HTTP
+110 POP3
+115 SFTP
+135 RPC
+143 IMAP
+194 IRC
+443 SSL
+445 SMB
+1433 MSSQL
+3306 MYSQL
+3389 Remote Desktop
+
+TCP: Gönderim temelli protokol, veri taşımadan önce karşılıklı bağlantı kurulması gerekir.
+
+UDP: uygulamaların veri aktarımında kullandığı protokollerden biridir. TCP'nin aksine veri taşımadan önce bağlantı kurulması gerekmez.
+
+
+		TCP BAYRAKLARI
+		
+SYN: Bağlantı kurulacak makinenin durumunu kontrol etmeye yarar.
+
+ACK: Gelen sin bayrağına tepki olan bir bayrak
+FIN: bu bayrak iletişimi sonlandırır(karşılıklı olarak)
+
+RST: Karşılıksız olarak bağlantı kopulur.
+
+URG: Acil anlamında öncelik belirtmek için kullanılır.
+
+PSH: Gönderen bilginin pcp'ye derhal gönderilmesini belirtir.
+
+	  =ÜÇ YOLLU EL SIKIŞMA=
+		
+Client -------SYN------->Server
+Client <------SYN/ACK----Server
+Client -------ACK------->Server
+
+
+              Terminalde Kullanımı
+              
+nmap -h : bilgi al.
+               Port Durumları (PORT STATE)
+               
+1)OPEN : TCP, UDP, SCTP gibi bağlantıları kabul eder. 
+2)CLOSED : Ulaşılabilirler ancak herhangi bir uygulamayı çalıştıramayız. Açık porttan tek farkı budur.
+
+3)FILTERED : Açık ya da kapalı olduğunu bilemeyiz. Filtreli mesajı döner. Nmap bu portu tararken ICMP eror type 3 şeklinde bir hata alabilir. Bu hatayı almadığında taramaya devam eder ve bu da tarama süresini arttırır.
+
+4)UNFILTERED : Port erişilebilir ancak Nmap portun açık ya da kapalı olduğunu tespit edilemez. ACK taramasında unfiltered sonucu dönmektedir. Tarama yöntemi değiştirilerek bu durum genellikle aşılabilir. Windows Scan, SYN Scan, FIN Scan gibi taramalar yapılarak bu durum aşılabilir ve port durumu tespit edilebilir.
+
+5)OPEN-FILTERED: Nmap portun açık ya da kapalı olduğuna karar veremiyor.
+
+
+6) CLOSED-FILTERED: Namp bu durumda portun kapalı mı açık mı olduğu kusunda karar veremez. Tarama türünü değiştirmek fayda sağlayabilmektedir. Tıpkı 4 ve 5 gibi popüler port durumu değildir.
+
+ 	  TCP SYN SCAN(PORT AÇIKSA)
+ 	  
+Client -------SYN------->Server
+Client <------SYN/ACK----Server
+Client -------RST(No,forget it)------->Server
+
+ 	  TCP SYN SCAN(PORT KAPALIYSA)
+ 	  
+Client -------SYN------->Server
+Client <------RST----Server
+
+ 	  TCP SYN SCAN(PORT FILTRELİYSE)
+ 	  
+Client -------SYN------->Server
+Client -----SYN(Try again)---->Server
+
+=================================================
+		FIN TARAMASI
+		
+Nmap -sF -Pn -p 22 192.168.1.20
+
+ 	  if port is close;
+Client -------FIN------->Server
+Client <------RST/ACK----Server
+
+	  if port is open;
+Client -------FIN------->Server
+=================================================
+		NULL TARAMASI
+		
+Nmap -sN -Pn -p 22 192.168.1.20
+
+ 	  if port is close;
+Client -------no flag------->Server
+Client <------RST/ACK----Server
+
+	  if port is open;
+Client -------no flag------->Server
+================================================
+		XMAS TARAMASI
+		
+Nmap -sX -Pn -p 22 192.168.1.20
+
+ 	  if port is close;
+Client -------PUSH,URG,FIN------->Server
+Client <------RST/ACK----Server
+
+	  if port is open;
+Client -------PUSH,URG,FIN------->Server
+================================================
+
+		TCP ACK TARAMASI
+		
+
+ 	  if port is Filtered;
+Client -------ACK------->Server
+Client <------destination unreachible----Server
+
+	  if port is unfiltered;
+Client -------ACK------->Server
+Client <-------RST-------Server
+================================================
+
+
+
+		YARI AÇIK TARAMA(SYN scan)
+		
+Nmap -sS -Pn -p 22 192.168.1.20		
+
+ 	  if port is Filtered;
+Client -------SYN------->Server
+Client ------SYN(try again)---->Server
+
+	  if port is open;
+Client -------SYN------->Server
+Client <-------SYN/ACK-------Server
+Client -------RST------->Server
+
+	  if port is open;
+Client -------SYN------->Server
+Client <-------SYN/ACK-------Server
+================================================
+
+	   =HEDEF BELİRLEME=
+	  
+nmap <taramak istediğin ip adresleri(birden fazla ise ip adresleri arasında boşluk bırak)>
+
+nmap 192.168.1.1-30 (sonu 1'den 30 a kadar olan ip adreslerini tarar)
+
+nmap -iL <önceden hazırlamış olduğun içinde ip adresleri olan text doyasının yolunu yaz. Hepsini tarayacaktır.>
+
+nmap 192.168.1.0/24 (bu modeme bağlı olan tüm ip adresleri tarar.)
+
+nmap 192.168.1.0/24 --exclude 192.168.1.30-250 (sonu 30 dan 250'ye kadar olan ip adreslerini taramaz.)
+
+nmap 192.168.1.0/24 --exclude <önceden hazırlamış olduğun içinde ip adresleri olan text doyasının yolunu yaz. onlarını taramayacaktır.>
+
+namp <taramak istediğin adrel(url)>	
+---------------------------------------------   

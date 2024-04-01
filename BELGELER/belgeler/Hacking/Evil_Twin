@@ -1,0 +1,88 @@
+Şeytani İkiz:
+
+-Aynı isimle yeni bir ağ yayıyoruz
+-Orjinal ağdaki hedefe deauth uyguluyoruz
+-Bizim yaydığımıza bağlanmasını bekliyoruz
+
+
+1-)fluxsion
+
+2-)airgeddon
+
+
+-AIRGEDDON
+
+//githubdan indir ./airgeddon.sh ile çalıştır.
+
+
+Not: airgeddon ile birçok şey yapabilirsin
+
+
+
+-FLUXION
+
+//airgeddon ile aynı fonksiyonlara sahiptir.
+
+
+
+
+
+
+WPS GİRİŞ:
+
+//wps'nin görevi modemlerin diğer cihazlarla belli bir pin veya butonla bağlanmayı sağlamaktır.
+
+-reaver komutları:
+
+monitor modda iken:
+wash -i wlan0 //bu komut çevredeki wpsleri açık modemleri gösterecektir. 
+
+Not: Lck yes yazanlara şifre denemesi yapamayız çünkü modem kendini kilitliyor. Onun yerine deauthentication saldırısı yaparsak modemin kendini resetleme olasılığı ortaya çıkıyor ve yesten no ya dönebilir.
+
+
+reaver --bssid 5C:63:BF:64:A8:37 --channel 6 -i wlan0 -A -vvv // bulduğun listede saldırdığın modeme saldırı yapar.
+
+
+reaver --bssid 5C:63:BF:64:A8:37 --channel 6 -i wlan0 --pin 12345678 -A -vvv // specisifc girdiğiniz pini dener ama çalışmıyor.
+
+wpa_cli // yaz bir terminal girecek
+wps_pin <mac_of_modem> <pin_of_modem_wps> //pek çalışmıyor.
+
+
+
+
+
+MIMPROXY:
+
+//bize gelen bağlantıları izlememize, yeniden şekillendirmemize yarar. Ortadaki adam saldırısı için tasarlanmıştır.
+
+https://mitmproxy.org   //kendi sitesinden indirebilirsin.
+
+-proxy ayarları
+
+./mitmweb  //mitmproxy indirdiğimizde onun içindeki dosyalardan biri. Açıldığında bizi beef gibi bir panele yönlendirecek.
+ 
+proxy: interneti bir şeyin üzerinde geçirmek.
+
+
+not: firefox ayarlarını aç ve proxy diye arat ondan sonra Network Settings diye bir seçenek çıkacak. Ona tıkla ondan sonra manuel proxy seçeneğini seç ve HTTP proxy kısmına 127.0.0.1 yaz port için 8080 yaz aynısını HTTPS için de yap. Altta SOCKS Host kısmınada aynı ip ve portları giriyoruz kaydedip çıkıyoruz.
+
+
+-Sertifika Yüklemek
+
+mitmproxy çalışırken sonraki aşama tarayıcıya  mitm.it  yazmak. Burada sertifikalar var. linux için olanı indir. Orada nereye indirmemiz gerektiğini söylüyor(/usr/local/share) onu oraya indirdikten sonra  sudo update-ca-certificates komutunu çalıştırmalıyız.
+sonra: firefox certificate açıp o indirdiğimiz sertifikayı yüklememiz gerekiyor. 
+
+
+-Analizler ve Filtrelemeler:
+
+-m post // mitmproxy arama kısmına yazarsam bana sadece post methotlarını getirecektir.
+
+//buradan tıpkı bettercap gibi http sitedeki bilgileri alabiliriz.
+
+
+
+
+
+
+

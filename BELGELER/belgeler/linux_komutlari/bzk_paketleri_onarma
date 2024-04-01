@@ -1,0 +1,45 @@
+Ubuntu'da kırık paketlerin Terminal üzerinden nasıl düzeltileceği. Bunu yapmak için
+Ubuntu'daki kırık paketler ve ardından Ubuntu kullanıcıları bozuk paketleri düzeltebilir
+komut satırı ile. Linux Ubuntu'da bir paket kurulumu başarısız olursa, bu
+birkaç soruna neden olabilir. Örneğin, paket yöneticisi donuyor veya
+kilitli olmak. Ubuntu’yu düzgün bir şekilde kullanmak biraz zor olabilir.
+sistem paketleri bozuk veya bozuk. Neyse ki, birkaç yolu var
+sorunu çöz
+Ubuntu terminalini kullanarak kırık paketleri düzeltin
+
+Bozuk paketin adını biliyorsanız, aşağıdaki komutu kullanarak el ile kaldırabilirsiniz.
+
+sudo dpkg --remove -force --force-remove-reinstreq PACKAGE_NAME_GOES_HERE
+
+Bozuk paketin adından emin değilseniz, aşağıda verilen komutları izleyin:
+
+Komut 1
+
+sudo apt-get --fix-broken install
+
+Komut 2
+
+Bir Ubuntu paketi yüklemesi başarısız olursa (bağımlılıklar nedeniyle), aşağıdaki komutu çalıştırın.
+
+sudo apt-get clean
+sudo apt-get install -f
+sudo dpkg --configure -a
+sudo apt-get update
+
+Komut 3
+
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+
+Komut 4
+
+sudo apt-get clean
+sudo apt-get autoclean
+sudo apt-get autoremove
+
+Komut 5
+
+sudo dpkg --configure -a
+sudo apt-get update
+
+

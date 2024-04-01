@@ -1,0 +1,7 @@
+cat /proc/sys/net/ipv4/ip_forward
+
+##bu ip_forward yapmayı sağlar aksi halde bağlantı olmaz. cat ile durumu okuttuğumuza sonuç sıfırsa açmak için:
+
+echo 1 > /proc/sys/net/ipv4/ip_forward ## sonuç artık birdir
+
+##kali linuxu her açtığımıza deger sifira döner

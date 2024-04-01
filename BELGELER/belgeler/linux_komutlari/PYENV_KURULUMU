@@ -1,0 +1,34 @@
+#PYENV İNDİRİLMESİ VE KULLANIMI
+
+
+sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
+
+
+curl https://pyenv.run | bash
+
+
+ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+  echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+  echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.zshrc
+  
+  
+  
+  exec $SHELL
+  
+  pyenv
+  
+  pyenv install 2.7.18
+  
+  kali@kali:~$ pyenv global 2.7.18
+kali@kali:~$
+kali@kali:~$ pyenv versions
+  system
+* 2.7.18 (set by /home/kali/.pyenv/version)
+kali@kali:~$
+kali@kali:~$ python
+Python 2.7.18 (default, Apr 20 2020, 20:30:41)
+[GCC 9.3.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+kali@kali:~$
+
