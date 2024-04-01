@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import pandas as pd
 import os
+import time
+import random
 
 
 #belgeler isimli klasörüne gidiyor
@@ -23,9 +25,121 @@ while(True):
 	def temizle():
 		os.system("clear")
 		
+	def kus():
+		print(""" \033[0;33m
+		  ___
+		 ('v')
+		(-_-)
+		(("))
+		^^ ^^
+		""")
+		print(""" \033[0;32m""")
+		
+	def kopek():
+		print(""" \033[0;36m
+		  / \__
+		 (    @\___
+		 /         O
+		/   (_____/
+		/_____/   U
+		""")
+		print(""" \033[0;32m""")
+
+	def balina():
+		print(""" \033[0;35m
+		  ___
+		/ o o \
+		\  ^  /
+		 |___|
+		<     >
+		 \___/
+		""")
+
+		print(""" \033[0;32m""")
+		
+		
+	def okuz():
+		
+		print(""" \033[0;33m
+			 (__)
+			 (oo)
+		  /------\/
+		 / |    ||
+		*  /\---/\
+		   ~~   ~~
+		""")
+		print(""" \033[0;32m""")
+		
+	def kalp():
+		print(""" \033[0;31m
+		  @@@@@@@@@@
+		 @@@  @@@  @@@
+		@@@    @    @@@
+		@@@         @@@
+		 @@@       @@@
+		   @@@    @@@
+			 @@@@@@
+			   @@@
+		""")
+		print(""" \033[0;32m""")
+		
+	def yildiz():
+		print(""" \033[0;32m
+			 *
+		   *****
+		 *********
+		***********
+		 *********
+		   *****
+			 *
+		""")
+		print(""" \033[0;32m""")
+		
+	def gunes():
+		print(""" \033[0;34m
+			\     /
+			 \   /
+			  \ /
+		   ---|---
+			  / \\
+			 /   \\
+			/     \\
+		""")
+		print(""" \033[0;32m""")
+
+
+
+		
+	def rastgele_tamsayi_uret():
+		return random.randint(0, 6)
+
 	
 	def dizindeki_belgeler():
 		verilerim=pd.DataFrame(os.listdir())
+		sayi = rastgele_tamsayi_uret()
+		print(sayi)
+		if sayi ==0:
+			kus() 
+			
+		elif sayi ==1:
+			kopek()
+			
+		elif sayi ==2:
+			balina() 
+			
+		elif sayi ==3:
+			okuz()
+			
+		elif sayi ==4:
+			kalp() 
+			
+		elif sayi ==5:
+			yildiz()
+			
+		elif sayi ==6:
+			gunes() 
+			
+       
 		
 		try:
 			
@@ -42,6 +156,7 @@ while(True):
 			return "GİRDİĞİNİZ KLASÖR BOŞ BİR KLASÖRDÜR."	
 				
 	def file_creater():
+		
 		name=input("Lütfen oluşturmak istediğiniz klasörün ismini giriniz : ")
 		os.mkdir(str(name))
 		
@@ -49,10 +164,13 @@ while(True):
 		baslik=input("""\033[1;34m\n[++] Belgeniz İçin Bir Başlık Seçin Lütfen. \033[1;m""")
 		print("Şimdi İçeriğini Yazabilirsiniz Efendim..")
 		os.system("cat > "+baslik)
+		
+
 
 		
 			
 	#temizle()
+	
 	print("\n"*5)
 	print(dizindeki_belgeler())
 	print("\n"*5)
