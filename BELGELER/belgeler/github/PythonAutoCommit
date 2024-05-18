@@ -1,0 +1,158 @@
+
+import os
+import time
+import subprocess
+from datetime import datetime
+
+# 'zaman' modülü yerine datetime modülü kullanılıyor.
+# 'zaman' modülünün kodu eklenirse, bunun yerine kullanılabilir.
+
+def update(repo, dosya_yolu):
+    """
+    Verilen dosya yolunun bulunduğu dizine geçerek GitHub hesabına commit ve push işlemleri yapar.
+    """
+    # Dosya yolundan dizin yolunu çıkarın
+    
+    print(dosya_yolu)
+    os.chdir(dosya_yolu)  # Dosya yolunun bulunduğu dizine geç
+
+    # Git add, commit ve push işlemleri
+    subprocess.run(["git", "branch"])
+    #time.sleep(2)
+    #subprocess.run(["git", "fetch", "origin"])
+    #time.sleep(2)
+    #subprocess.run(["git", "checkout", "main"])
+    #time.sleep(2)
+    subprocess.run(["git", "add", "."])
+    #time.sleep(1)
+    subprocess.run(["git", "commit", "-m", "python otomatik commit"])
+    time.sleep(1)
+    subprocess.run(["git", "push","-u","origin", "main"])
+    time.sleep(1)
+
+    # Önceki dizine geri dön
+    os.chdir(github_dizin )  # Bu komut fonksiyonun dışında yer almalıdır
+
+# Ev dizinini al
+ev_dizin = os.path.expanduser("~")
+
+# GitHub dizinini birleştir
+github_dizin = os.path.join(ev_dizin, "github")
+
+# Zaman damgası dosyasını oku
+try:
+    with open("zaman_damgasi.txt", "r") as f:
+        zaman_damgasi = f.readline().strip()
+        zaman_damgasi = datetime.strptime(zaman_damgasi, "%a %b %d %H:%M:%S %Y")
+except FileNotFoundError:
+    zaman_damgasi = None  # Dosya yoksa None ata
+
+max_zaman = zaman_damgasi  # Başlangıçta zaman damgasını ata
+
+# GitHub deposunu açın
+# Depoyu açma işlemi eksik. Bu bölümde, GitHub deposu açılıp 
+# dosyaların depolandığı dizine erişmeniz gerekiyor.
+
+# Dizindeki dosyaları al
+for dosya in os.listdir(github_dizin):
+    dosya_yolu = os.path.join(github_dizin, dosya)
+    repo = dosya_yolu
+    # Gizli dosyaları ve belirli dosyaları atla
+    if dosya == "kontrol.py" or dosya == "zaman.py" or dosya == "zaman_damgasi.txt" or dosya.startswith(".") or dosya=="__pycache__":
+        continue
+
+    # Zaman sınıfını kullanarak en son değişiklik tarihini al
+    try:
+        z = datetime.fromtimestamp(os.path.getmtime(dosya_yolu))  # En son değişiklik tarihini al
+        saniye = int(z.second)
+        z = datetime(z.year, z.month, z.day, z.hour, z.minute, saniye)
+    except OSError:
+        print(f"Hata: {dosya_yolu} dosyasına erişilemiyor.")
+        continue
+
+    if z is not None:
+        # Zaman damgasını karşılaştır
+        if zaman_damgasi is not None:
+            try:
+                if z > zaman_damgasi:
+                    print(f"{dosya_yolu}: True, {z}")
+                    max_zaman = z  # En büyük zaman damgasını güncelle
+                    update(repo, dosya_yolu)  # Update fonksiyonunu çağır
+            except ValueError:
+                print(f"Hata: {dosya_yolu} için geçersiz zaman damgası.")
+
+
+# Zaman damgası dosyasını güncelle
+if max_zaman is not None:	
+    with open("zaman_damgasi.txt", "w") as f:
+        f.write(max_zaman.strftime("%a %b %d %H:%M:%S %Y"))  # Zaman damgasını dosyaya kaydet
+    os.chdir(ev_dizin) # Çalışma dizinini başlangıç dizinine geri döndür
+
+
+
+
+#kontrol.py dosyasını oluşturduktan sonra karşılaştırma için zaman.py dosyası oluştur.
+
+
+
+
+
+#zaman.py dosyası:
+
+import os
+import time
+
+class Zaman:
+  """Dosya ve dizinlerin son değiştirilme zamanlarını kontrol etmek için bir sınıf."""
+  
+  def __en_son_duzenlenen_dosyayi_bul(self,dizin):
+    """
+    Verilen dizindeki en son değiştirilen dosyanın yolunu bulur.
+    
+    Args:
+      dizin: Tarayacak dizin.
+    
+    Returns:
+      En son değiştirilen dosyanın tam yolu.
+    """
+    en_son_duzenleme_zamani = 0
+    en_son_duzenlenen_dosya = None  # Başlangıçta None olarak ayarlandı
+    for kök, alt_dizinler, dosyalar in os.walk(dizin):
+      # .git dizinini atla
+      if ".git" in kök:
+        continue
+      for dosya in dosyalar:
+        dosya_yolu = os.path.join(kök, dosya)
+        # Gizli dosyaları atla
+        if dosya.startswith("."):
+          continue
+        duzenleme_zamani = os.path.getmtime(dosya_yolu)
+        if duzenleme_zamani > en_son_duzenleme_zamani:
+          en_son_duzenleme_zamani = duzenleme_zamani
+          en_son_duzenlenen_dosya = dosya_yolu  # Son değiştirilmiş dosya yolunu ata
+
+    return en_son_duzenlenen_dosya
+
+  def GET(self, dosya_yolu):
+    """
+    Verilen dosya yolunun son değiştirilme tarihini döndürür.
+
+    Args:
+      dosya_yolu: Dosyanın tam yolu.
+
+    Returns:
+      Son değiştirilme tarihini gösteren bir string.
+    """
+
+    en_son_dosya = self.__en_son_duzenlenen_dosyayi_bul(dosya_yolu)
+    if en_son_dosya is not None:  # En son dosya bulunduysa
+      duzenleme_zamani = time.ctime(os.path.getmtime(en_son_dosya))  # Doğru dosya yolunu kullan
+      return duzenleme_zamani
+    else:
+      return None
+
+
+
+#son olarak zaman_damgasi.txt dosyasini github içinde oluşturun
+
+
