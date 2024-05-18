@@ -1,0 +1,34 @@
+
+celik@celik:~$ adb tcpip 5555
+restarting in TCP mode port: 5555
+celik@celik:~$ adb connect 192.168.1.102
+missing port in specification: tcp:192.168.1.102
+celik@celik:~$ adb connect 192.168.1.102:5555
+connected to 192.168.1.102:5555
+
+
+#Bu Ayarları gördükten sorna KAbluyu yani usb yi çıkar sonra terminale scrcpy yaz
+
+
+
+celik@celik:~$ scrcpy
+scrcpy 1.21 <https://github.com/Genymobile/scrcpy>
+/usr/share/scrcpy/scrcpy-server: 1 fil...shed. 0.4 MB/s (39473 bytes in 0.093s)
+[server] INFO: Device: Xiaomi Redmi Note 8 (Android 14)
+[server] ERROR: Could not invoke method
+java.lang.NoSuchMethodException: android.content.IClipboard$Stub$Proxy.addPrimaryClipChangedListener [interface android.content.IOnPrimaryClipChangedListener, class java.lang.String, int]
+	at java.lang.Class.getMethod(Class.java:2950)
+	at java.lang.Class.getMethod(Class.java:2450)
+	at com.genymobile.scrcpy.wrappers.ClipboardManager.getAddPrimaryClipChangedListener(ClipboardManager.java:103)
+	at com.genymobile.scrcpy.wrappers.ClipboardManager.addPrimaryClipChangedListener(ClipboardManager.java:111)
+	at com.genymobile.scrcpy.Device.<init>(Device.java:93)
+	at com.genymobile.scrcpy.Server.scrcpy(Server.java:63)
+	at com.genymobile.scrcpy.Server.main(Server.java:309)
+	at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)
+	at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:359)
+INFO: Renderer: opengl
+INFO: OpenGL version: 4.6 (Compatibility Profile) Mesa 24.0.7 - kisak-mesa PPA
+INFO: Trilinear filtering enabled
+INFO: Initial texture: 1080x2336
+
+

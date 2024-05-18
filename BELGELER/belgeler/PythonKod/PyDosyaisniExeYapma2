@@ -1,0 +1,17 @@
+
+PyInstaller'ı Çalıştırmanın Alternatif Yolları
+
+PyInstaller'ı doğrudan komut satırından çalıştırmanın dışında birkaç alternatif yöntem vardır:
+
+1. Python Betiği İçinden Çalıştırma:
+
+PyInstaller'ı Python betiğinizin içinden kullanarak diğer Python betiklerini derleyebilirsiniz. Bu yöntem, otomasyon veya özel derleme işlemleri için kullanışlıdır.
+
+      
+import PyInstaller.__main__
+
+PyInstaller.__main__.run([
+    '--onefile',
+    'your_script.py'
+])
+

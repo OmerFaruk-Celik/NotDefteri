@@ -1,0 +1,15 @@
+öncelikle ssh kısmından github reponuzu koyalayın ve aşağıdakini kullanıcı adı ve depo sizin olacak şekilde terminale yapıştırınız.
+
+git clone git@github.com:KULLANICIADI/DEPOADı.git
+
+sonra cd ile DEPOADi yazan kısma gidin sizin depo adı yazacaktır.
+
+sonra aşağıdaki kodalrı yapıştırınız..
+
+
+git add .
+git commit -m "Dosya yükleme işlemi için açıklama"
+
+git push origin main
+
+

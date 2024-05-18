@@ -1,0 +1,10 @@
+
+celik@celik:~/.local/share/applications$ find ~/ -name "WifiHost.desktop"
+/home/celik/.local/share/nautilus/scripts/WifiHost.desktop
+^C
+celik@celik:~/.local/share/applications$ nano ~/.local/share/na
+nano/     nautilus/ 
+celik@celik:~/.local/share/applications$ nano ~/.local/share/na
+nano/     nautilus/ 
+celik@celik:~/.local/share/applications$ nano ~/.local/share/nautilus/scripts/WifiHost.desktop 
+celik@celik:~/.local/share/applications$ chmod +x ~/.local/share/nautilus/scripts/WifiHost.desktop 

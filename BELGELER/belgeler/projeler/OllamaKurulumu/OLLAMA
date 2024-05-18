@@ -1,0 +1,142 @@
+
+1. Ollama'yı Kurma
+
+    Yöntem 1: Docker Kullanma (Önerilen)
+
+        Docker'ı Yükleyin:
+
+            Resmi Docker web sitesini ziyaret edin: https://www.docker.com/
+
+            İşletim sisteminize göre Docker'ı indirin ve yükleyin.
+
+        Docker Hub'dan Ollama Görüntüsünü Çekin:
+
+            Komut satırında veya terminalinizde aşağıdaki komutu çalıştırın:
+
+                  
+            docker pull ollama/ollama
+
+                
+
+    Use code with caution.Bash
+
+Ollama'yı Çalıştırın:
+
+    Aşağıdaki komutu çalıştırın:
+
+          
+    docker run -it -p 11434:11434 ollama/ollama
+
+        
+
+        Use code with caution.Bash
+
+            -it: Ollama'ya etkileşimli bir şekilde erişmenizi sağlar.
+
+            -p 11434:11434: Yerel makinenizdeki 11434 numaralı portu, Docker konteynerindeki 11434 numaralı porta yönlendirir. Bu, Ollama'nın API'sine erişmenizi sağlar.
+
+    Ollama'yı Test Edin:
+
+        Bir web tarayıcısında http://localhost:11434 adresini ziyaret edin. Ollama arayüzüyle karşılaşmanız gerekir.
+
+Yöntem 2: Manuel Kurulum (Linux)
+
+    Gerekli Bağımlılıkları Yükleyin:
+
+          
+    sudo apt update
+    sudo apt install build-essential cmake git libncurses5-dev zlib1g-dev libgdbm-dev libnss3-dev libffi-dev libreadline-dev libssl-dev
+
+        
+
+Use code with caution.Bash
+
+Go'yu Yükleyin:
+
+      
+wget https://go.dev/dl/go1.20.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.20.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
+    
+
+Use code with caution.Bash
+
+Ollama'yı Klonlayın:
+
+      
+git clone https://github.com/ollama/ollama.git
+cd ollama
+
+    
+
+Use code with caution.Bash
+
+Bağımlılıkları Oluşturun:
+
+      
+go generate ./...
+
+    
+
+Use code with caution.Bash
+
+Ollama'yı Derleyin:
+
+      
+go build .
+
+    
+
+Use code with caution.Bash
+
+Ollama'yı Çalıştırın:
+
+      
+./ollama serve
+
+    
+
+        Use code with caution.Bash
+
+2. Kendi Modellerinizi Oluşturma
+
+    Model Dosyası (Modelfile) Oluşturma:
+
+        Bir metin düzenleyici kullanarak Modelfile adında bir dosya oluşturun.
+
+        Aşağıdaki örneği kullanın veya ihtiyaçlarınıza göre özelleştirin:
+
+              
+        FROM llama3  # Kullanılacak temel model
+        PARAMETER temperature 1.0  # Üretkenliği kontrol eder (1.0 daha yaratıcı, 0.0 daha tutarlı)
+        PARAMETER top_k 40  # Üretilen kelimeleri daraltmak için kullanılır
+        PARAMETER top_p 0.9  # Üretilen kelimeleri daraltmak için kullanılır
+        SYSTEM """
+        Sen yaratıcı bir yazarısın. Komutları dikkatlice takip et ve yaratıcı hikayeler yaz.
+        """
+
+            
+
+    Use code with caution.
+
+Modeli Oluşturma:
+
+    Komut satırında aşağıdaki komutu çalıştırın:
+
+          
+    ollama create my-model -f ./Modelfile
+
+        
+
+    Use code with caution.Bash
+
+Modeli Çalıştırma:
+
+    Oluşturduğunuz modeli aşağıdaki komutla çalıştırın:
+
+          
+    ollama run my-model
+
+        
+

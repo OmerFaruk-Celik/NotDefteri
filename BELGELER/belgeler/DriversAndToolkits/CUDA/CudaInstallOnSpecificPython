@@ -1,0 +1,14 @@
+
+$ conda create --name tf python=3.10
+$ conda activate tf
+
+$ conda install -c conda-forge cudatoolkit=11.8.0
+$ pip install nvidia-cudnn-cu11==8.6.0.163
+
+
+mkdir -p $CONDA_PREFIX/etc/conda/activate.d
+echo 'CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+echo 'export LD_LIBRARY_PATH=$CONDA_PREFIX/lib/:$CUDNN_PATH/lib:$LD_LIBRARY_PATH' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+source $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+
+import tensorflow as tf

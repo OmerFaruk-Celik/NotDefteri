@@ -1,0 +1,52 @@
+
+
+
+
+
+Depoyu İndirme (Clone):
+
+bash
+
+git clone https://github.com/kullanici_adi/repo_adi.git
+
+Çalışma Dizini Güncelleme:
+
+bash
+
+git pull
+
+Yerel Değişiklikleri Kaydetme:
+
+bash
+
+git add dosya_adı
+git commit -m "Commit mesajı"
+
+Yerel Değişiklikleri Uzak Sunucuya Gönderme:
+
+bash
+
+git push origin branch_adi
+
+Yeni Dal (Branch) Oluşturma:
+
+bash
+
+git checkout -b yeni_branch_adi
+
+Bir Dalı Ana Dala Birleştirme (Merge):
+
+bash
+
+git checkout ana_branch_adi
+git merge diger_branch_adi
+
+Dalı Silme:
+
+bash
+
+    git branch -d silinecek_branch_adi
+
+Bu komutları kullanarak GitHub'daki bir depoyu yönetebilir, dosya yükleyebilir, güncelleyebilir ve diğer işlemleri gerçekleştirebilirsiniz.
+
+

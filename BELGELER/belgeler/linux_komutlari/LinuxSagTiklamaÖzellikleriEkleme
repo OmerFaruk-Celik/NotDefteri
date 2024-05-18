@@ -1,0 +1,49 @@
+
+
+.desktop Dosyası Oluşturma: İlk olarak, masaüstünde veya uygun bir konumda bir .desktop dosyası oluşturun. Örneğin, WifiHost.desktop adında bir dosya oluşturabilirsiniz.
+
+.desktop Dosyası Düzenleme: Oluşturduğunuz .desktop dosyasını bir metin düzenleyici ile açın ve aşağıdaki içeriği ekleyin:
+
+plaintext
+
+[Desktop Entry]
+Type=Application
+Name=WifiHost
+Exec=/usr/bin/python3 /home/celik/dosyaTransfer/WifiHost/gonder.py
+
+    Name alanı, sağ tıklama menüsünde görünecek olan seçeneğin adını belirtir.
+    Exec alanı, tıklama işleminde çalıştırılacak komutu belirtir. Burada, Python betiğinizin tam yolunu belirtmelisiniz.
+
+gonder.py Dosyası Oluşturma: Ardından, gonder.py adında bir Python betiği oluşturun ve içine aşağıdaki kodu ekleyin:
+
+python
+
+#!/usr/bin/env python3
+
+import tkinter as tk
+
+def merhaba():
+    root = tk.Tk()
+    label = tk.Label(root, text="Merhaba!")
+    label.pack()
+    root.mainloop()
+
+merhaba()
+
+    Bu kod, sağ tıklama menüsündeki seçeneğe tıklandığında açılacak olan basit bir Tkinter penceresi oluşturur.
+
+İzinlerin Ayarlanması: gonder.py dosyasının çalıştırılabilir olması için terminalde şu komutu çalıştırın:
+
+bash
+
+chmod +x /home/celik/dosyaTransfer/WifiHost/gonder.py
+
+.desktop Dosyasının Yerleştirilmesi: .desktop dosyasını ~/.local/share/nautilus/scripts/ dizinine veya uygun bir konuma yerleştirin.
+
+Nautilus'un Yeniden Başlatılması: Son olarak, Nautilus dosya yöneticisini yeniden başlatın. Bunu terminalden şu komutu çalıştırarak yapabilirsiniz:
+
+bash
+
+    nautilus -q
+
+Bu adımları takip ettikten sonra, sağ tıklama menüsünde "WifiHost" seçeneğini görmelisiniz. Bu seçeneğe tıkladığınızda, gonder.py dosyasındaki Python kodu çalışacaktır.

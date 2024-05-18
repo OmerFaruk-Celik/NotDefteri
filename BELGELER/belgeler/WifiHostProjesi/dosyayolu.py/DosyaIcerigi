@@ -1,0 +1,9 @@
+
+
+[Desktop Entry]
+Type=Application
+Name=WifiHost
+Exec=/usr/bin/python3 /home/celik/dosyaTransfer/WifiHost/gonder.py
+
+
+
