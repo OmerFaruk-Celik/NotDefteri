@@ -11,3 +11,5 @@ cd ./NotDefteri
 chmod +x ./INSTALL
 
 ./INSTALL
+
+#OTO COMMI özelliği eklenmiştir
