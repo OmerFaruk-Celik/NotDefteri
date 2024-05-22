@@ -6,11 +6,9 @@ sudo apt-get install python3
 sudo apt-get install pip 
 pip install pandas
 
-
+mkdir -p ~/github/NotDefteri
 sudo cp -r notlar /usr/bin/notlar
 sudo chmod 777 /usr/bin/notlar
-#sudo mkdir -p /usr/bin/BELGELER
-#sudo chmod 777 /usr/bin/BELGELER
-#cp -r belgeler /usr/bin/BELGELER/belgeler
+sudo chmod 777 ~/github/NotDefteri/BELGELER
 
 echo "Yükleme işlemi tamamlandı. Çalıştırmak için terminale 'notlar' yazın"
