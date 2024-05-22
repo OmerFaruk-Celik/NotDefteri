@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import pandas as pd
 import os
 import time
@@ -6,6 +6,20 @@ import random
 
 
 #belgeler isimli klasörüne gidiyor
+import os
+
+# Ev dizinini al
+ev_dizini = os.path.expanduser("~")
+
+# Github dizinini birleştir
+github_dizini = os.path.join(ev_dizini, "github")
+
+# NotDefteri dizinini birleştir
+surum = os.path.join(github_dizini, "NotDefteri","python")
+
+with open("python", "r") as f:
+	surum=f.read()
+
 path="/usr/bin"+"/BELGELER/belgeler"
 os.chdir(path)
 print(os.listdir())
