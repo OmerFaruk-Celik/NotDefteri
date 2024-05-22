@@ -9,6 +9,7 @@ pip install pandas
 mkdir -p ~/github/NotDefteri
 sudo cp -r notlar /usr/bin/notlar
 sudo chmod 777 /usr/bin/notlar
-sudo chmod 777 ~/github/NotDefteri/BELGELER
+cp -r * ~/github/NotDefteri/notlar
+
 
 echo "Yükleme işlemi tamamlandı. Çalıştırmak için terminale 'notlar' yazın"
