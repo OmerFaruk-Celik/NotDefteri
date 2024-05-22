@@ -15,14 +15,14 @@ ev_dizini = os.path.expanduser("~")
 github_dizini = os.path.join(ev_dizini, "github","NotDefteri")
 
 # NotDefteri dizinini birleştir
-surum = os.path.join(github_dizini,"python")
+py_yol = os.path.join(github_dizini,"python")
+
+with open(py_yol, "r") as f:
+	surum=f.read()
+surum=surum.lower()
 surum=surum.replace(" ","")
 dizi=surum.split(".")
 surum=dizi[0]+"."+dizi[1]
-with open("python", "r") as f:
-	surum=f.read()
-surum=surum.lower()
-
 yol=	github_dizini+'/VenvNotlar/lib/'+surum+'/site-packages'
 sys.path.insert(0, yol) 
 
