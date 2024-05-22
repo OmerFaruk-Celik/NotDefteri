@@ -20,8 +20,8 @@ surum = os.path.join(github_dizini,"python")
 with open("python", "r") as f:
 	surum=f.read()
 	
-yol=	'./VenvNotlar/lib/'+surum+'/site-packages'
-sys.path.insert(0, ) 
+yol=	github_dizini+'/VenvNotlar/lib/'+surum+'/site-packages'
+sys.path.insert(0, yol) 
 
 path=github_dizini+"/BELGELER/belgeler"
 os.chdir(path)
