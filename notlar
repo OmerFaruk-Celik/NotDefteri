@@ -12,15 +12,18 @@ import os
 ev_dizini = os.path.expanduser("~")
 
 # Github dizinini birleştir
-github_dizini = os.path.join(ev_dizini, "github")
+github_dizini = os.path.join(ev_dizini, "github","NotDefteri")
 
 # NotDefteri dizinini birleştir
-surum = os.path.join(github_dizini, "NotDefteri","python")
+surum = os.path.join(github_dizini,"python")
 
 with open("python", "r") as f:
 	surum=f.read()
+	
+	
+sys.path.insert(0, './VenvNotlar/lib/python3.X/site-packages') 
 
-path="/usr/bin"+"/BELGELER/belgeler"
+path=github_dizini+"/BELGELER/belgeler"
 os.chdir(path)
 print(os.listdir())
 
