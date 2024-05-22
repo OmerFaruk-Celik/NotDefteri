@@ -1,0 +1,377 @@
+
+DOCKER INDIRME/YUKLEME
+
+sudo apt install gnome-terminal
+
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo docker run hello-world # Test
+
+wget https://desktop.docker.com/linux/main/amd64/149282/docker-desktop-4.30.0-amd64.deb?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-linux-amd64&_gl=1*dlfdiy*_ga*MTQ5MDE4NjU1LjE3MTYzOTE2MzA.*_ga_XJWPQMJYHQ*MTcxNjM5ODU5My4yLjEuMTcxNjM5ODY1Mi4xLjAuMA..
+sudo apt-get update
+sudo apt-get install ./docker-desktop-4.30.0-amd64.deb
+systemctl --user start docker-desktop
+
+
+docker compose version
+Docker Compose version v2.17.3
+
+docker --version
+Docker version 23.0.5, build bc4487a
+
+docker version
+Client: Docker Engine - Community
+ Cloud integration: v1.0.31
+ Version:           23.0.5
+ API version:       1.42
+<...>
+
+
+
+
+systemctl --user enable docker-desktop
+systemctl --user stop docker-desktop
+
+
+
+
+
+
+
+DOCKER-NVIDIA KURULUMU
+
+
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+      
+sudo sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+
+nvidia-ctk runtime configure --runtime=docker --config=$HOME/.config/docker/daemon.json
+systemctl --user restart docker
+sudo nvidia-ctk config --set nvidia-container-cli.no-cgroups --in-place
+
+sudo nvidia-ctk runtime configure --runtime=containerd
+sudo systemctl restart containerd
+
+sudo nvidia-ctk runtime configure --runtime=crio
+sudo systemctl restart crio
+#cri hatası ile ilgili bilgisayar crio kurun
+
+sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi # kdu ile test edin hata alınırsa
+
+#Hata alınırsa
+
+Method 2
+Actually, you can try to bypass cgroupsv2 by setting (in file mentioned above)
+
+no-cgroups = true
+
+Then you must manually pass all gpu devices to the container. Check this answer for the list of required mounts: https://github.com/NVIDIA/nvidia-docker … -851039827
+For debugging purposes, just run:
+
+sudo systemctl restart docker
+sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
+
+
+
+
+BlueRov2 Simülasyonu Projesi
+
+Amaç: BlueRov2 su altı robotunun Gazebo simülasyonunu kurmak ve kontrol etmek.
+
+Gereksinimler:
+
+    Donanım:
+
+        Ubuntu 22.04 işletim sistemi
+
+        NVIDIA GPU (isteğe bağlı)
+
+    Yazılım:
+
+        Docker
+
+        NVIDIA Container Toolkit
+
+        ROS Melodic
+
+        Gazebo 9
+
+        Bluerov2 ROS paketleri
+
+Kurulum Adımları:
+
+1. X11 Ayarları:
+
+      
+*   `xhost +local:root` komutunu çalıştırarak X11 sunucusunun yerel bağlantıları kabul etmesini sağlayın.
+
+    
+
+Use code with caution.
+
+2. NVIDIA Container Toolkit Kurulumu:
+
+      
+*   **NVIDIA GPU Sürücülerini Kurun:**
+
+    ```bash
+    sudo apt-add-repository universe
+    sudo add-apt-repository ppa:graphics-drivers/ppa
+    sudo apt-get update
+    sudo apt-get install nvidia-driver-470 -y
+    ```
+
+*   **NVIDIA Container Toolkit'i İndirin:**
+
+    ```bash
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+      && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+      sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+      sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    ```
+
+*   **Paket Listelerini Güncelleyin:**
+
+    ```bash
+    sudo apt-get update
+    ```
+
+*   **NVIDIA Container Toolkit'i Kurun:**
+
+    ```bash
+    sudo apt-get install -y nvidia-container-toolkit
+    ```
+
+    
+
+Use code with caution.
+
+3. Docker Kurulumu:
+
+      
+*   **Docker'ı Kurun:**
+
+    ```bash
+    sudo apt update
+    sudo apt install docker.io
+    ```
+
+*   **Docker Servisini Başlatın:**
+
+    ```bash
+    sudo systemctl start docker
+    ```
+
+*   **Docker Servisini Etkinleştirin:**
+
+    ```bash
+    sudo systemctl enable docker
+    ```
+
+    
+
+Use code with caution.
+
+4. NVIDIA Container Toolkit'i Docker ile Yapılandırma:
+
+      
+*   **NVIDIA Container Toolkit'i Docker ile Yapılandırın:**
+
+    ```bash
+    sudo nvidia-ctk runtime configure --runtime=docker
+    ```
+
+*   **Docker Daemon'ını Yeniden Başlatın:**
+
+    ```bash
+    sudo systemctl restart docker
+    ```
+
+    
+
+Use code with caution.
+
+5. Docker Konteynerini Başlatma:
+
+      
+*   **Docker Konteynerini Başlatma:**
+
+    ```bash
+    sudo docker run -it --cpus 4 --memory 16g \
+      -e DISPLAY=$DISPLAY \
+      -v /tmp/.X11-unix:/tmp/.X11-unix \
+      -v $HOME/.Xauthority:$HOME/.Xauthority \
+      -v /dev/snd:/dev/snd \
+      -v /dev/dri:/dev/dri \
+      --runtime=nvidia \
+      --gpus all \
+      my-ros-melodic-image bash
+    ```
+
+    
+
+Use code with caution.
+
+6. Docker Konteyneri İçinde DISPLAY Değişkenini Ayarlama:
+
+      
+*   `export DISPLAY=:0` komutunu çalıştırarak, Docker konteyneri içindeki uygulamaların ev sahibi bilgisayarın ekranına bağlanmasını sağlayın.
+
+    
+
+Use code with caution.
+
+7. Docker Konteyneri İçinde roscore'u Başlatma:
+
+      
+*   `roscore` komutunu çalıştırarak, ROS Master'ını Docker konteyneri içinde başlatın.
+
+    
+
+Use code with caution.
+
+8. Docker Konteyneri İçinde X Sunucusunu Başlatma:
+
+      
+*   `Xvfb :1 -screen 0 1024x768x24 &` komutunu çalıştırarak, Docker konteyneri içinde sanal bir X sunucusu başlatın.
+
+    
+
+Use code with caution.
+
+9. Docker Konteynerini Çalıştırma:
+
+      
+*   `sudo docker start ros-melodic` komutunu kullanarak konteyneri başlatın.
+*   `sudo docker exec -it ros-melodic bash` komutunu kullanarak konteynerin içine girin.
+
+    
+
+Use code with caution.
+
+10. Sudoers Dosyasına ardupilot_user Kullanıcısını Ekleme:
+
+      
+*   Konteyner içinde sudoers dosyasına yazma izni verin:
+
+    ```bash
+    sudo chmod u+w /etc/sudoers
+    ```
+
+*   `echo` komutunu kullanarak satırı ekleyin:
+
+    ```bash
+    echo "ardupilot_user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    ```
+
+*   Sudoers dosyasına yazma iznini kaldırın:
+
+    ```bash
+    sudo chmod u-w /etc/sudoers
+    ```
+
+    
+
+Use code with caution.
+
+11. Yeni Kullanıcı Oluşturma:
+
+      
+*   `sudo useradd -m -s /bin/bash ardupilot_user` komutunu kullanarak yeni bir kullanıcı oluşturun.
+
+    
+
+Use code with caution.
+
+12. Kullanıcı Şifresini Ayarlama:
+
+      
+*   `sudo passwd ardupilot_user` komutunu kullanarak yeni kullanıcının şifresini ayarlayın.
+
+    
+
+Use code with caution.
+
+13. Kullanıcıya Tam Yetki Verme:
+
+      
+*   `sudo usermod -G sudo ardupilot_user` komutunu kullanarak kullanıcıya tam yetki verin.
+
+    
+
+Use code with caution.
+
+14. Kullanıcı Olarak Oturum Açma:
+
+      
+*   `su ardupilot_user` komutunu kullanarak yeni oluşturulan kullanıcı olarak oturum açın.
+
+apt install libasound2-dev
+
+    
+    
+    
+
+
+
+
+1. Docker Görüntüsünü Kaydetme:
+
+      
+docker save my-ros-melodic-image > my-ros-melodic-image.tar
+
+    
+
+Use code with caution.Bash
+
+    Bu komut, my-ros-melodic-image Docker görüntüsünü my-ros-melodic-image.tar adlı bir dosyaya kaydeder.
+
+2. Docker Görüntüsünü Sıkıştırma:
+
+      
+tar -czvf my-ros-melodic-image.tar.gz my-ros-melodic-image.tar
+
+    
+
+Use code with caution.Bash
+
+    Bu komut, my-ros-melodic-image.tar dosyasını my-ros-melodic-image.tar.gz adlı bir zip dosyasına sıkıştırır.
+
+3. Docker Görüntüsünü Başka Bir Bilgisayara Taşıma:
+
+    my-ros-melodic-image.tar.gz dosyasını diğer bilgisayara kopyalayın.
+
+4. Docker Görüntüsünü Yükleme:
+
+    Diğer bilgisayarda my-ros-melodic-image.tar.gz dosyasını açın.
+
+    docker load komutunu kullanarak Docker görüntüsünü yükleyin:
+
+      
+```bash
+  docker load < my-ros-melodic-image.tar.gz
+  ```
+
+    
