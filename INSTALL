@@ -20,3 +20,6 @@ cp -r * ~/github/NotDefteri/
 
 
 echo "Yükleme işlemi tamamlandı. Çalıştırmak için terminale 'notlar' yazın"
+
+
+#https://docs.docker.com/desktop/install/ubuntu/
