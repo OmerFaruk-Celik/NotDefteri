@@ -1,0 +1,78 @@
+
+Install CRI-O on Ubuntu
+
+You can install cri-o runtime easily on Ubuntu using the following four steps.
+Step 1: Add the cri-o repository from OpenSUSE.
+
+First, we need to add the cri-o repository from the openSUSE repo. The version we are using is 1.28
+
+OS="xUbuntu_22.04"
+VERSION="1.28"
+
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+
+Step 2: Add the cri-o gpg keys
+
+Add the cri-o gpg release key to verify the downloaded package.
+
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key --keyring /etc/apt/trusted.gpg.d/libcontainers.gpg add -
+
+Step 3: Update and install cri-o
+
+Run an update and install. crio and crio-runc packages.
+
+sudo apt-get update
+sudo apt-get install cri-o cri-o-runc cri-tools -y
+
+Step 4: Reload and enable cri-o
+
+Reload the systemd confirmations and enable crio utility to start on re-boots.
+
+sudo systemctl daemon-reload
+sudo systemctl enable crio --now
+
+Step 5: Verify cri-o installation using crictl.
+
+crictl utility is part of the cri-tools package. It is the CLI to interact with cri-o
+
+sudo crictl info
+
+You should see a JSON output as shown below.
+
+{
+  "status": {
+    "conditions": [
+      {
+        "type": "RuntimeReady",
+        "status": true,
+        "reason": "",
+        "message": ""
+      },
+      {
+        "type": "NetworkReady",
+        "status": false,
+        "reason": "NetworkPluginNotReady",
+        "message": "Network plugin returns error: No CNI configuration file in /etc/cni/net.d/. Has your network provider started?"
+      }
+    ]
+  }
+}
+
+Conclusion
+
+When it comes to kubeadm Kubernetes setup, you need a container runtime like cri-o. Also, it is an important concept in Kubernetes certification exams. In the CKS certification exam, you will have to use the crictl command line utility for troubleshooting.
+
+If you are preparing for Kubernetes certification, check out the CKA exam guide and use the CKA coupon to get discounts on certification registration.
+
+If you are learning Kubernetes, check out the best Kubernetes tutorials.
+Facebook
+Twitter
+LinkedIn
+Like
+Email
+
+    More
+
+Picture of Scriptcrunch Editorial
