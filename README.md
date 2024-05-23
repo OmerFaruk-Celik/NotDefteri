@@ -12,4 +12,4 @@ chmod +x ./INSTALL
 
 ./INSTALL
 
-#OTO COMMI özelliği eklenmiştir
+#OTO COMMI özelliği eklenmiştir. Ubuntu23.10 için uygun hale getirilmiştir. 
