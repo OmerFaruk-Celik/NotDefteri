@@ -1,0 +1,18 @@
+
+
+version: "3.7"
+services:
+  my-ros-container:
+    image: my-ros-melodic-image
+    volumes:
+      - /home/celik/workspace:/workspace
+    environment:
+      DISPLAY: $DISPLAY
+    runtime: nvidia
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/snd:/dev/snd
+    deploy:
+      resources:
+        reservations:
+          cpus: "4"
